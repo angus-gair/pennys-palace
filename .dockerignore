@@ -1,0 +1,30 @@
+# Git files
+.git
+.gitignore
+
+# Documentation
+*.md
+CLAUDE.md
+
+# Python files (not needed in container)
+*.py
+__pycache__
+*.pyc
+
+# Editor files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Duplicate directory
+pennys-personal-place/

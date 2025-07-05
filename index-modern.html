@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Penny's Personal Place - A fun, educational platform for kids featuring Sydney Swans content, cooking recipes, games, and productivity tools">
+    <meta name="keywords" content="kids, education, Sydney Swans, AFL, cooking, games, learning">
+    <meta name="author" content="Penny's Palace">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
+    
+    <title>Penny's Personal Place | Fun Learning & Sydney Swans</title>
+    <link rel="stylesheet" href="style-modern.css">
+</head>
+<body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="sr-only">Skip to main content</a>
+    
+    <!-- Header with Improved Structure -->
+    <header class="main-header" role="banner">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-branding">
+                    <h1 class="header-title">
+                        <span class="star-icon" aria-hidden="true">🌟</span>
+                        Penny's Personal Place
+                        <span class="star-icon" aria-hidden="true">🌟</span>
+                    </h1>
+                    <p class="header-subtitle">Your magical space for fun, learning, and creativity!</p>
+                </div>
+                
+                <!-- Theme Toggle Button -->
+                <button class="theme-toggle" aria-label="Toggle dark mode" id="theme-toggle">
+                    <span class="sun-icon" aria-hidden="true">☀️</span>
+                    <span class="moon-icon" aria-hidden="true">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation with ARIA Labels -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <ul class="nav-list" role="menubar">
+                <li role="none">
+                    <button class="nav-btn active" 
+                            data-section="amazing-facts" 
+                            role="menuitem" 
+                            aria-pressed="true"
+                            aria-controls="amazing-facts">
+                        <span aria-hidden="true">🤩</span> Amazing Facts
+                    </button>
+                </li>
+                <li role="none">
+                    <button class="nav-btn" 
+                            data-section="go-swans" 
+                            role="menuitem" 
+                            aria-pressed="false"
+                            aria-controls="go-swans">
+                        <span aria-hidden="true">🦢</span> Go Swans!
+                    </button>
+                </li>
+                <li role="none">
+                    <button class="nav-btn" 
+                            data-section="cooking-fun" 
+                            role="menuitem" 
+                            aria-pressed="false"
+                            aria-controls="cooking-fun">
+                        <span aria-hidden="true">🍪</span> Cooking Fun
+                    </button>
+                </li>
+                <li role="none">
+                    <button class="nav-btn" 
+                            data-section="play-games" 
+                            role="menuitem" 
+                            aria-pressed="false"
+                            aria-controls="play-games">
+                        <span aria-hidden="true">🎮</span> Play Games
+                    </button>
+                </li>
+                <li role="none">
+                    <button class="nav-btn" 
+                            data-section="my-tools" 
+                            role="menuitem" 
+                            aria-pressed="false"
+                            aria-controls="my-tools">
+                        <span aria-hidden="true">🛠️</span> My Tools
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content with Enhanced Accessibility -->
+    <main class="main-content" id="main-content" role="main">
+        <div class="container">
+            <!-- Amazing Facts Section -->
+            <section id="amazing-facts" class="content-section active" aria-labelledby="facts-title">
+                <header>
+                    <h2 id="facts-title" class="section-title">
+                        <span aria-hidden="true">🤩</span> Amazing Facts
+                    </h2>
+                </header>
+                
+                <div class="facts-controls">
+                    <button class="btn btn--primary random-fact-btn" 
+                            aria-describedby="random-fact-desc"
+                            onclick="showRandomFact()">
+                        <span aria-hidden="true">🎲</span> Random Fact
+                    </button>
+                    <p id="random-fact-desc" class="sr-only">
+                        Click to see a random amazing fact from our collection
+                    </p>
+                </div>
+                
+                <div class="facts-categories" role="region" aria-label="Fact categories">
+                    <section class="fact-category" aria-labelledby="animal-facts-title">
+                        <h3 id="animal-facts-title">
+                            <span aria-hidden="true">🐾</span> Amazing Animals
+                        </h3>
+                        <div class="facts-grid" id="animal-facts" role="list" aria-labelledby="animal-facts-title">
+                            <!-- Facts will be populated by JavaScript -->
+                        </div>
+                    </section>
+                    
+                    <section class="fact-category" aria-labelledby="space-facts-title">
+                        <h3 id="space-facts-title">
+                            <span aria-hidden="true">🌌</span> Cool Space
+                        </h3>
+                        <div class="facts-grid" id="space-facts" role="list" aria-labelledby="space-facts-title">
+                            <!-- Facts will be populated by JavaScript -->
+                        </div>
+                    </section>
+                    
+                    <section class="fact-category" aria-labelledby="body-facts-title">
+                        <h3 id="body-facts-title">
+                            <span aria-hidden="true">💪</span> Your Body
+                        </h3>
+                        <div class="facts-grid" id="body-facts" role="list" aria-labelledby="body-facts-title">
+                            <!-- Facts will be populated by JavaScript -->
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <!-- Go Swans Section -->
+            <section id="go-swans" class="content-section" aria-labelledby="swans-title">
+                <header>
+                    <h2 id="swans-title" class="section-title">
+                        <span aria-hidden="true">🦢</span> Go Swans!
+                    </h2>
+                </header>
+                
+                <div class="swans-info" role="region" aria-label="Sydney Swans information">
+                    <article class="swans-card card" aria-labelledby="team-info-title">
+                        <h3 id="team-info-title">Team Information</h3>
+                        <dl class="team-info-grid">
+                            <div class="info-item">
+                                <dt><strong>Nickname:</strong></dt>
+                                <dd>The Swans, The Bloods</dd>
+                            </div>
+                            <div class="info-item">
+                                <dt><strong>Colors:</strong></dt>
+                                <dd>Red and White</dd>
+                            </div>
+                            <div class="info-item">
+                                <dt><strong>Home Ground:</strong></dt>
+                                <dd>Sydney Cricket Ground (SCG)</dd>
+                            </div>
+                            <div class="info-item">
+                                <dt><strong>Mascot:</strong></dt>
+                                <dd>Cyggy the Swan <span aria-hidden="true">🦢</span></dd>
+                            </div>
+                            <div class="info-item">
+                                <dt><strong>Founded:</strong></dt>
+                                <dd>1874</dd>
+                            </div>
+                        </dl>
+                    </article>
+                    
+                    <article class="swans-card card" aria-labelledby="players-title">
+                        <h3 id="players-title">Current Star Players</h3>
+                        <div class="players-list" id="players-list" role="list" aria-labelledby="players-title">
+                            <!-- Players will be populated by JavaScript -->
+                        </div>
+                    </article>
+                    
+                    <article class="swans-card card" aria-labelledby="swans-facts-title">
+                        <h3 id="swans-facts-title">Fun Swans Facts</h3>
+                        <div class="swans-facts" id="swans-facts" role="list" aria-labelledby="swans-facts-title">
+                            <!-- Facts will be populated by JavaScript -->
+                        </div>
+                    </article>
+                </div>
+                
+                <aside class="swans-quiz card" aria-labelledby="quiz-title">
+                    <h3 id="quiz-title">
+                        <span aria-hidden="true">🧠</span> Swans Quiz
+                    </h3>
+                    <div id="quiz-container" role="application" aria-labelledby="quiz-title">
+                        <div class="quiz-question" id="quiz-question" aria-live="polite">
+                            <!-- Quiz questions will be populated by JavaScript -->
+                        </div>
+                        <div class="quiz-answers" id="quiz-answers" role="radiogroup" aria-labelledby="quiz-question">
+                            <!-- Quiz answers will be populated by JavaScript -->
+                        </div>
+                        <button class="btn btn--secondary" id="start-quiz-btn">Start Quiz</button>
+                    </div>
+                </aside>
+            </section>
+
+            <!-- Cooking Fun Section -->
+            <section id="cooking-fun" class="content-section" aria-labelledby="cooking-title">
+                <header>
+                    <h2 id="cooking-title" class="section-title">
+                        <span aria-hidden="true">🍪</span> Cooking Fun
+                    </h2>
+                </header>
+                
+                <div class="recipes-container" role="region" aria-label="Recipe collection">
+                    <article class="recipe-card card" id="recipe-1" aria-labelledby="muffin-title">
+                        <header>
+                            <h3 id="muffin-title">
+                                <span aria-hidden="true">🧁</span> Super Simple Banana Muffins
+                            </h3>
+                            <div class="recipe-meta">
+                                <span class="difficulty">Easy <span aria-hidden="true">🌟</span></span>
+                                <time class="time" datetime="PT30M">30 minutes</time>
+                            </div>
+                        </header>
+                        
+                        <div class="recipe-content">
+                            <section class="ingredients" aria-labelledby="muffin-ingredients-title">
+                                <h4 id="muffin-ingredients-title">Ingredients:</h4>
+                                <ul id="muffin-ingredients" role="list">
+                                    <!-- Ingredients will be populated by JavaScript -->
+                                </ul>
+                            </section>
+                            
+                            <section class="instructions" aria-labelledby="muffin-instructions-title">
+                                <h4 id="muffin-instructions-title">Instructions:</h4>
+                                <ol id="muffin-instructions" role="list">
+                                    <!-- Instructions will be populated by JavaScript -->
+                                </ol>
+                            </section>
+                        </div>
+                        
+                        <footer>
+                            <button class="btn btn--secondary print-recipe-btn" 
+                                    onclick="printRecipe('recipe-1')"
+                                    aria-label="Print banana muffin recipe">
+                                <span aria-hidden="true">🖨️</span> Print Recipe
+                            </button>
+                        </footer>
+                    </article>
+                    
+                    <article class="recipe-card card" id="recipe-2" aria-labelledby="cookie-title">
+                        <header>
+                            <h3 id="cookie-title">
+                                <span aria-hidden="true">🍪</span> No-Bake Cookie Balls
+                            </h3>
+                            <div class="recipe-meta">
+                                <span class="difficulty">Super Easy <span aria-hidden="true">🌟</span></span>
+                                <time class="time" datetime="PT15M">15 minutes + chilling</time>
+                            </div>
+                        </header>
+                        
+                        <div class="recipe-content">
+                            <section class="ingredients" aria-labelledby="cookie-ingredients-title">
+                                <h4 id="cookie-ingredients-title">Ingredients:</h4>
+                                <ul id="cookie-ingredients" role="list">
+                                    <!-- Ingredients will be populated by JavaScript -->
+                                </ul>
+                            </section>
+                            
+                            <section class="instructions" aria-labelledby="cookie-instructions-title">
+                                <h4 id="cookie-instructions-title">Instructions:</h4>
+                                <ol id="cookie-instructions" role="list">
+                                    <!-- Instructions will be populated by JavaScript -->
+                                </ol>
+                            </section>
+                        </div>
+                        
+                        <footer>
+                            <button class="btn btn--secondary print-recipe-btn" 
+                                    onclick="printRecipe('recipe-2')"
+                                    aria-label="Print cookie balls recipe">
+                                <span aria-hidden="true">🖨️</span> Print Recipe
+                            </button>
+                        </footer>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Play Games Section -->
+            <section id="play-games" class="content-section" aria-labelledby="games-title">
+                <header>
+                    <h2 id="games-title" class="section-title">
+                        <span aria-hidden="true">🎮</span> Play Games
+                    </h2>
+                </header>
+                
+                <div class="games-container" role="region" aria-label="Game collection">
+                    <article class="game-card card" id="memory-game" aria-labelledby="memory-game-title">
+                        <header>
+                            <h3 id="memory-game-title">
+                                <span aria-hidden="true">🧠</span> Memory Match
+                            </h3>
+                            <p>Match Sydney Swans players and facts!</p>
+                        </header>
+                        
+                        <button class="btn btn--primary" onclick="startMemoryGame()">
+                            Play Memory Match
+                        </button>
+                        
+                        <div class="game-area" id="memory-game-area" style="display: none;" 
+                             role="application" aria-labelledby="memory-game-title">
+                            <div class="game-score" aria-live="polite">
+                                Score: <span id="memory-score">0</span>
+                            </div>
+                            <div class="memory-grid" id="memory-grid" 
+                                 role="grid" aria-label="Memory card game">
+                                <!-- Memory cards will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="game-card card" id="word-scramble" aria-labelledby="scramble-title">
+                        <header>
+                            <h3 id="scramble-title">
+                                <span aria-hidden="true">🔤</span> Word Scramble
+                            </h3>
+                            <p>Unscramble dance and AFL words!</p>
+                        </header>
+                        
+                        <button class="btn btn--primary" onclick="startWordScramble()">
+                            Play Word Scramble
+                        </button>
+                        
+                        <div class="game-area" id="word-scramble-area" style="display: none;"
+                             role="application" aria-labelledby="scramble-title">
+                            <div class="game-score" aria-live="polite">
+                                Score: <span id="scramble-score">0</span>
+                            </div>
+                            <div class="scramble-word" id="scramble-word" aria-label="Scrambled word"></div>
+                            <label for="scramble-input" class="sr-only">Enter your answer</label>
+                            <input type="text" class="form-control" id="scramble-input" 
+                                   placeholder="Type your answer here..." 
+                                   aria-describedby="scramble-feedback">
+                            <button class="btn btn--secondary" onclick="checkScrambleAnswer()">
+                                Check Answer
+                            </button>
+                            <div class="scramble-feedback" id="scramble-feedback" 
+                                 aria-live="polite" role="status"></div>
+                        </div>
+                    </article>
+                    
+                    <article class="game-card card" id="facts-quiz" aria-labelledby="facts-quiz-title">
+                        <header>
+                            <h3 id="facts-quiz-title">
+                                <span aria-hidden="true">🧠</span> Fun Facts Quiz
+                            </h3>
+                            <p>Test your amazing facts knowledge!</p>
+                        </header>
+                        
+                        <button class="btn btn--primary" onclick="startFactsQuiz()">
+                            Play Facts Quiz
+                        </button>
+                        
+                        <div class="game-area" id="facts-quiz-area" style="display: none;"
+                             role="application" aria-labelledby="facts-quiz-title">
+                            <div class="game-score" aria-live="polite">
+                                Score: <span id="facts-score">0</span>
+                            </div>
+                            <div class="quiz-question" id="facts-question" aria-live="polite"></div>
+                            <div class="quiz-options" id="facts-options" 
+                                 role="radiogroup" aria-labelledby="facts-question"></div>
+                            <div class="quiz-feedback" id="facts-feedback" 
+                                 aria-live="polite" role="status"></div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- My Tools Section -->
+            <section id="my-tools" class="content-section" aria-labelledby="tools-title">
+                <header>
+                    <h2 id="tools-title" class="section-title">
+                        <span aria-hidden="true">🛠️</span> My Tools
+                    </h2>
+                </header>
+                
+                <div class="tools-container" role="region" aria-label="Productivity tools">
+                    <article class="tool-card card" aria-labelledby="planner-title">
+                        <header>
+                            <h3 id="planner-title">
+                                <span aria-hidden="true">📅</span> Daily Planner
+                            </h3>
+                        </header>
+                        
+                        <div class="planner-area">
+                            <form class="planner-controls" onsubmit="addPlannerItem(event)">
+                                <label for="planner-date" class="sr-only">Select date</label>
+                                <input type="date" class="form-control" id="planner-date" 
+                                       aria-label="Select date for activity">
+                                
+                                <label for="planner-activity" class="sr-only">Activity description</label>
+                                <input type="text" class="form-control" id="planner-activity" 
+                                       placeholder="Add activity..." 
+                                       aria-label="Enter activity description">
+                                
+                                <button type="submit" class="btn btn--primary">Add Activity</button>
+                            </form>
+                            
+                            <div class="planner-list" id="planner-list" aria-live="polite">
+                                <div class="planner-categories">
+                                    <section class="category-section" aria-labelledby="dance-activities-title">
+                                        <h4 id="dance-activities-title">
+                                            <span aria-hidden="true">🩰</span> Dance Classes
+                                        </h4>
+                                        <ul id="dance-activities" role="list"></ul>
+                                    </section>
+                                    
+                                    <section class="category-section" aria-labelledby="school-activities-title">
+                                        <h4 id="school-activities-title">
+                                            <span aria-hidden="true">📚</span> School & Homework
+                                        </h4>
+                                        <ul id="school-activities" role="list"></ul>
+                                    </section>
+                                    
+                                    <section class="category-section" aria-labelledby="fun-activities-title">
+                                        <h4 id="fun-activities-title">
+                                            <span aria-hidden="true">🎉</span> Fun Activities
+                                        </h4>
+                                        <ul id="fun-activities" role="list"></ul>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="tool-card card" aria-labelledby="goals-title">
+                        <header>
+                            <h3 id="goals-title">
+                                <span aria-hidden="true">🎯</span> Goal Tracker
+                            </h3>
+                        </header>
+                        
+                        <div class="goals-area">
+                            <form class="goal-input" onsubmit="addGoal(event)">
+                                <label for="goal-input" class="sr-only">Enter new goal</label>
+                                <input type="text" class="form-control" id="goal-input" 
+                                       placeholder="Set a new goal..." 
+                                       aria-label="Enter a new goal">
+                                <button type="submit" class="btn btn--primary">Add Goal</button>
+                            </form>
+                            
+                            <div class="goals-list" id="goals-list" 
+                                 role="list" aria-live="polite" aria-label="Your goals">
+                                <!-- Goals will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="tool-card card" aria-labelledby="journal-title">
+                        <header>
+                            <h3 id="journal-title">
+                                <span aria-hidden="true">📝</span> Creative Journal
+                            </h3>
+                        </header>
+                        
+                        <div class="journal-area">
+                            <form class="journal-controls" onsubmit="saveJournalEntry(event)">
+                                <label for="journal-title-input" class="sr-only">Entry title</label>
+                                <input type="text" class="form-control" id="journal-title-input" 
+                                       placeholder="Entry title..." 
+                                       aria-label="Enter journal entry title">
+                                
+                                <label for="journal-entry" class="sr-only">Journal entry content</label>
+                                <textarea class="form-control" id="journal-entry" rows="6" 
+                                          placeholder="Write about your day..." 
+                                          aria-label="Write your journal entry"></textarea>
+                                
+                                <button type="submit" class="btn btn--primary">Save Entry</button>
+                            </form>
+                            
+                            <div class="journal-entries" id="journal-entries" 
+                                 role="list" aria-live="polite" aria-label="Your journal entries">
+                                <!-- Journal entries will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer with Enhanced Content -->
+    <footer class="main-footer" role="contentinfo">
+        <div class="container">
+            <p>
+                <span aria-hidden="true">🩰</span> 
+                Keep dancing and dreaming, Penny! 
+                <span aria-hidden="true">🏈</span>
+            </p>
+            <p class="footer-credits">
+                <small>Made with love for learning and fun</small>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Progress Bar for Loading States -->
+    <div class="progress-bar" id="progress-bar" aria-hidden="true">
+        <div class="progress-fill"></div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container" aria-live="polite" aria-label="Notifications">
+        <!-- Toast messages will be inserted here -->
+    </div>
+
+    <!-- Celebration Modal Structure -->
+    <div class="celebration-overlay hidden" id="celebration-overlay"></div>
+    <div class="celebration hidden" id="celebration" role="dialog" aria-labelledby="celebration-title">
+        <h3 id="celebration-title">🎉 Awesome!</h3>
+        <p id="celebration-message">Great job!</p>
+        <button class="btn btn--primary" onclick="closeCelebration()">Continue</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app-modern.js"></script>
+</body>
+</html>

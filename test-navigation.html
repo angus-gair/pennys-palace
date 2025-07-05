@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Test - Penny's Palace</title>
+    <style>
+        .content-section { display: none; padding: 20px; }
+        .content-section.active { display: block; }
+        .nav-btn { margin: 10px; padding: 10px 20px; }
+        .nav-btn.active { background: #E91E63; color: white; }
+    </style>
+</head>
+<body>
+    <nav>
+        <button class="nav-btn active" onclick="switchSection('amazing-facts')">🤩 Amazing Facts</button>
+        <button class="nav-btn" onclick="switchSection('go-swans')">🦢 Go Swans!</button>
+        <button class="nav-btn" onclick="switchSection('cooking-fun')">🍪 Cooking Fun</button>
+        <button class="nav-btn" onclick="switchSection('play-games')">🎮 Play Games</button>
+        <button class="nav-btn" onclick="switchSection('my-tools')">🛠️ My Tools</button>
+    </nav>
+
+    <main>
+        <section id="amazing-facts" class="content-section active">
+            <h2>🤩 Amazing Facts</h2>
+            <p>This is the Amazing Facts section!</p>
+        </section>
+        
+        <section id="go-swans" class="content-section">
+            <h2>🦢 Go Swans!</h2>
+            <p>This is the Go Swans section!</p>
+        </section>
+        
+        <section id="cooking-fun" class="content-section">
+            <h2>🍪 Cooking Fun</h2>
+            <p>This is the Cooking Fun section!</p>
+        </section>
+        
+        <section id="play-games" class="content-section">
+            <h2>🎮 Play Games</h2>
+            <p>This is the Play Games section!</p>
+        </section>
+        
+        <section id="my-tools" class="content-section">
+            <h2>🛠️ My Tools</h2>
+            <p>This is the My Tools section!</p>
+        </section>
+    </main>
+
+    <script>
+        function switchSection(sectionName) {
+            console.log('Switching to:', sectionName);
+            
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show target section
+            const targetSection = document.getElementById(sectionName);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                console.log('Activated section:', targetSection.id);
+            } else {
+                console.error('Section not found:', sectionName);
+            }
+
+            // Update nav button states
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            const activeButton = document.querySelector(`[onclick*="${sectionName}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+                console.log('Activated button for:', sectionName);
+            }
+        }
+        
+        console.log('Navigation test page loaded');
+    </script>
+</body>
+</html>
