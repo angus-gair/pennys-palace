@@ -1,0 +1,204 @@
+{
+  "app_name": "Penny's Personal Place",
+  "tagline": "Fun, Facts, Food & More!",
+  "sections": {
+    "fun_facts_blog": {
+      "title": "Did You Know? - Penny's Amazing Facts",
+      "content": [
+        {
+          "title": "Amazing Animal Facts",
+          "facts": [
+            "Octopuses have 3 hearts and blue blood! \ud83d\udc19",
+            "Tigers have striped skin, not just striped fur! \ud83d\udc05",
+            "Elephants are the only mammals that can't jump! \ud83d\udc18",
+            "A shrimp's heart is in its head! \ud83e\udd90",
+            "Giraffes only sleep 2 hours a day! \ud83e\udd92"
+          ]
+        },
+        {
+          "title": "Cool Space Facts",
+          "facts": [
+            "There are more stars in the sky than grains of sand on a beach! \u2728",
+            "A day on Venus is longer than a year on Venus! \ud83e\ude90",
+            "You could fit 1 million Earths inside the Sun! \u2600\ufe0f",
+            "Sound doesn't travel in space - it's completely silent! \ud83c\udf0c",
+            "Astronauts can grow up to 2 inches taller in space! \ud83d\udc68\u200d\ud83d\ude80"
+          ]
+        },
+        {
+          "title": "Surprising Body Facts",
+          "facts": [
+            "Your heart is about the same size as your fist! \u2764\ufe0f",
+            "You have about 10,000 taste buds! \ud83d\udc45",
+            "Your brain uses 20% of your body's energy! \ud83e\udde0",
+            "You blink about 17,000 times a day! \ud83d\udc41\ufe0f",
+            "Your bones are 4 times stronger than concrete! \ud83e\uddb4"
+          ]
+        }
+      ]
+    },
+    "sydney_swans_section": {
+      "title": "Go Swans! - All About Penny's Team",
+      "content": {
+        "team_info": {
+          "nickname": "The Swans, The Bloods",
+          "colors": "Red and White",
+          "home_ground": "Sydney Cricket Ground (SCG)",
+          "mascot": "Cyggy the Swan",
+          "founded": "1874 (as South Melbourne)",
+          "premierships": [
+            "1909",
+            "1918",
+            "1933",
+            "2005",
+            "2012"
+          ]
+        },
+        "fun_swans_facts": [
+          "The Sydney Swans were originally called South Melbourne and moved to Sydney in 1982! \ud83c\udfc3\u200d\u2642\ufe0f",
+          "Their mascot Cyggy is a friendly swan who loves entertaining fans! \ud83e\udda2",
+          "The team colors are red and white, known as 'The Bloods'! \u2764\ufe0f",
+          "They play at the famous Sydney Cricket Ground! \ud83c\udfdf\ufe0f",
+          "The Swans have won 5 premierships throughout their history! \ud83c\udfc6",
+          "Isaac Heeney and Errol Gulden are two of their current star players! \u2b50"
+        ],
+        "current_season": "2025 season starts March 7 against Hawthorn",
+        "famous_players": [
+          "Isaac Heeney - Forward/Midfielder",
+          "Errol Gulden - Midfielder",
+          "Chad Warner - Midfielder",
+          "Callum Mills - Captain",
+          "Nick Blakey - Defender"
+        ]
+      }
+    },
+    "cooking_recipes": {
+      "title": "Penny's Kitchen Adventures",
+      "recipes": [
+        {
+          "name": "Super Simple Banana Muffins",
+          "difficulty": "Easy \ud83c\udf1f",
+          "time": "30 minutes",
+          "ingredients": [
+            "2 ripe bananas (mashed)",
+            "1 cup self-raising flour",
+            "1/2 cup milk",
+            "1/4 cup melted butter",
+            "1 egg",
+            "2 tablespoons sugar",
+            "Optional: chocolate chips!"
+          ],
+          "instructions": [
+            "Preheat oven to 180\u00b0C",
+            "Mash bananas in a big bowl",
+            "Mix in egg, milk, and melted butter",
+            "Add flour and sugar, stir gently",
+            "Add chocolate chips if you want!",
+            "Spoon into muffin cases",
+            "Bake for 18-20 minutes",
+            "Let cool and enjoy! \ud83e\uddc1"
+          ]
+        },
+        {
+          "name": "No-Bake Cookie Balls",
+          "difficulty": "Super Easy \ud83c\udf1f",
+          "time": "15 minutes + chilling",
+          "ingredients": [
+            "2 cups crushed biscuits (like Marie or Arrowroot)",
+            "1/2 cup cocoa powder",
+            "1 can condensed milk",
+            "1 cup desiccated coconut",
+            "Extra coconut for rolling"
+          ],
+          "instructions": [
+            "Crush biscuits into fine crumbs",
+            "Mix biscuits, cocoa, and coconut in a bowl",
+            "Add condensed milk and mix well",
+            "Roll mixture into balls",
+            "Roll balls in extra coconut",
+            "Put in fridge for 2 hours",
+            "Enjoy your delicious treats! \ud83c\udf6a"
+          ]
+        }
+      ]
+    },
+    "games": {
+      "title": "Penny's Fun Games",
+      "games": [
+        {
+          "name": "Swans Memory Challenge",
+          "description": "Test your memory with Sydney Swans players and facts!",
+          "type": "Memory Game",
+          "how_to_play": "Click cards to find matching pairs of Swans players and facts. Remember where each card is!"
+        },
+        {
+          "name": "Word Scramble Adventure",
+          "description": "Unscramble words related to dance, AFL, and fun facts!",
+          "type": "Word Game",
+          "how_to_play": "Look at the scrambled letters and try to spell the correct word. Get hints if you need help!"
+        },
+        {
+          "name": "Fun Facts Quiz",
+          "description": "How many amazing facts do you know?",
+          "type": "Quiz Game",
+          "how_to_play": "Answer questions about animals, space, and the human body. See how many you can get right!"
+        }
+      ]
+    },
+    "useful_tools": {
+      "title": "Penny's Helpful Tools",
+      "tools": [
+        {
+          "name": "Daily Planner",
+          "description": "Keep track of your dance classes, school work, and fun activities!",
+          "features": [
+            "Add dance classes with Emma",
+            "Track homework and school projects",
+            "Plan fun activities and adventures",
+            "Set reminders for important things"
+          ]
+        },
+        {
+          "name": "Goal Tracker",
+          "description": "Set and achieve your dancing and learning goals!",
+          "features": [
+            "Set dance technique goals",
+            "Track reading progress",
+            "Monitor AFL knowledge growth",
+            "Celebrate achievements with fun rewards"
+          ]
+        },
+        {
+          "name": "Creative Journal",
+          "description": "Write about your day, draw pictures, and save memories!",
+          "features": [
+            "Daily diary entries",
+            "Upload photos from dance class",
+            "Draw and doodle",
+            "Create digital scrapbook pages"
+          ]
+        }
+      ]
+    }
+  },
+  "design_elements": {
+    "color_scheme": {
+      "primary": "Sydney Swans red (#FF0000)",
+      "secondary": "Pure white (#FFFFFF)",
+      "accent": "Soft pink for dance elements (#FFB6C1)",
+      "background": "Light cream (#FFF8DC)"
+    },
+    "imagery": [
+      "Sydney Swans logo and colors",
+      "Dance-related icons (ballet shoes, music notes)",
+      "Fun cartoon animals for facts section",
+      "Cooking utensils and food illustrations",
+      "Stars and space elements"
+    ],
+    "fonts": {
+      "headers": "Playful, rounded sans-serif",
+      "body": "Clean, readable sans-serif",
+      "accent": "Fun script font for special elements"
+    }
+  }
+}
