@@ -66,54 +66,7 @@ const appData = {
       "They moved to Sydney in 1982! 🚚",
       "The SCG has hosted cricket since 1848! 🏏"
     ]
-  },
-  recipes: [
-    {
-      name: "Super Simple Banana Muffins",
-      difficulty: "Easy 🌟",
-      time: "30 minutes",
-      ingredients: [
-        "2 ripe bananas (mashed) 🍌",
-        "1 cup self-raising flour",
-        "1/2 cup milk 🥛",
-        "1/4 cup melted butter",
-        "1 egg 🥚",
-        "2 tablespoons sugar",
-        "Optional: chocolate chips! 🍫"
-      ],
-      instructions: [
-        "Preheat oven to 180°C 🔥",
-        "Mash bananas in a big bowl 🥣",
-        "Mix in egg, milk, and melted butter",
-        "Add flour and sugar, stir gently",
-        "Add chocolate chips if you want!",
-        "Spoon into muffin cases",
-        "Bake for 18-20 minutes ⏰",
-        "Let cool and enjoy! 🧁"
-      ]
-    },
-    {
-      name: "No-Bake Cookie Balls",
-      difficulty: "Super Easy 🌟",
-      time: "15 minutes + chilling",
-      ingredients: [
-        "2 cups crushed biscuits 🍪",
-        "1/2 cup cocoa powder 🍫",
-        "1 can condensed milk 🥛",
-        "1 cup desiccated coconut 🥥",
-        "Extra coconut for rolling"
-      ],
-      instructions: [
-        "Crush biscuits into fine crumbs",
-        "Mix biscuits, cocoa, and coconut",
-        "Add condensed milk and mix well",
-        "Roll mixture into balls ⚽",
-        "Roll balls in extra coconut",
-        "Put in fridge for 2 hours ❄️",
-        "Enjoy your treats! 🍪"
-      ]
-    }
-  ]
+  }
 };
 
 // Enhanced game data
@@ -506,29 +459,7 @@ function setupNavigation() {
   });
 }
 
-// Theme toggle functionality
-function setupThemeToggle() {
-  const themeToggle = document.getElementById('theme-toggle');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', toggleTheme);
-  }
-
-  // Apply saved theme
-  if (appState.preferences.theme) {
-    document.documentElement.setAttribute('data-theme', appState.preferences.theme);
-    appState.theme = appState.preferences.theme;
-  }
-}
-
-function toggleTheme() {
-  const newTheme = appState.theme === 'light' ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', newTheme);
-  appState.theme = newTheme;
-  appState.preferences.theme = newTheme;
-  saveUserPreferences();
-
-  ToastManager.show(`Switched to ${newTheme} mode! ${newTheme === 'dark' ? '🌙' : '☀️'}`, 'info');
-}
+// Theme functionality removed - using light mode only for cleaner experience
 
 // Enhanced section switching with animations
 function switchSection(sectionName) {
@@ -596,7 +527,6 @@ function switchSection(sectionName) {
 function populateContent() {
   setupWheel();
   populateSwansInfo();
-  populateRecipes();
   setupQuiz();
 }
 
@@ -647,78 +577,9 @@ function populateSwansInfo() {
   }
 }
 
-function populateRecipes() {
-  // Populate muffin recipe
-  const muffinIngredients = document.getElementById('muffin-ingredients');
-  const muffinInstructions = document.getElementById('muffin-instructions');
-
-  if (muffinIngredients && muffinInstructions) {
-    muffinIngredients.innerHTML = '';
-    muffinInstructions.innerHTML = '';
-
-    appData.recipes[0].ingredients.forEach((ingredient, index) => {
-      const li = document.createElement('li');
-      li.textContent = ingredient;
-      li.setAttribute('role', 'listitem');
-      muffinIngredients.appendChild(li);
-
-      setTimeout(() => {
-        AnimationUtils.slideIn(li, 'left');
-      }, index * 50);
-    });
-
-    appData.recipes[0].instructions.forEach((instruction, index) => {
-      const li = document.createElement('li');
-      li.textContent = instruction;
-      li.setAttribute('role', 'listitem');
-      muffinInstructions.appendChild(li);
-
-      setTimeout(() => {
-        AnimationUtils.slideIn(li, 'left');
-      }, (index * 50) + 500);
-    });
-  }
-
-  // Populate cookie recipe
-  const cookieIngredients = document.getElementById('cookie-ingredients');
-  const cookieInstructions = document.getElementById('cookie-instructions');
-
-  if (cookieIngredients && cookieInstructions) {
-    cookieIngredients.innerHTML = '';
-    cookieInstructions.innerHTML = '';
-
-    appData.recipes[1].ingredients.forEach((ingredient, index) => {
-      const li = document.createElement('li');
-      li.textContent = ingredient;
-      li.setAttribute('role', 'listitem');
-      cookieIngredients.appendChild(li);
-
-      setTimeout(() => {
-        AnimationUtils.slideIn(li, 'left');
-      }, index * 50);
-    });
-
-    appData.recipes[1].instructions.forEach((instruction, index) => {
-      const li = document.createElement('li');
-      li.textContent = instruction;
-      li.setAttribute('role', 'listitem');
-      cookieInstructions.appendChild(li);
-
-      setTimeout(() => {
-        AnimationUtils.slideIn(li, 'left');
-      }, (index * 50) + 500);
-    });
-  }
-}
 
 // Enhanced event listeners
 function setupEventListeners() {
-  // Spin wheel button
-  const spinBtn = document.getElementById('spin-btn');
-  if (spinBtn) {
-    spinBtn.addEventListener('click', spinWheel);
-  }
-
   // Quiz start button
   const startQuizBtn = document.getElementById('start-quiz-btn');
   if (startQuizBtn) {
@@ -777,7 +638,7 @@ function handleKeyboardShortcuts(e) {
         switchSection('amazing-facts');
         break;
       case '2':
-        switchSection('cooking-fun');
+        switchSection('recipe-generator');
         break;
       case '3':
         switchSection('play-games');
@@ -792,122 +653,7 @@ function handleKeyboardShortcuts(e) {
   }
 }
 
-// Spinning Wheel Logic
-const wheelOptions = [
-  { label: "Animals", color: "#FFC107" },
-  { label: "Space", color: "#9C27B0" },
-  { label: "Human Body", color: "#4CAF50" },
-];
-let startAngle = 0;
-let arc = Math.PI / (wheelOptions.length / 2);
-let spinTimeout = null;
-let spinAngleStart = 10;
-let spinTime = 0;
-let spinTimeTotal = 0;
-let ctx;
-
-function setupWheel() {
-  const canvas = document.getElementById('wheel-canvas');
-  if (canvas && canvas.getContext) {
-    ctx = canvas.getContext('2d');
-    drawWheel();
-  }
-}
-
-function drawWheel() {
-  const canvas = document.getElementById('wheel-canvas');
-  const outsideRadius = 200;
-  const textRadius = 160;
-  const insideRadius = 125;
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 2;
-
-  ctx.font = 'bold 24px ' + getComputedStyle(document.body).fontFamily;
-
-  for (let i = 0; i < wheelOptions.length; i++) {
-    const angle = startAngle + i * arc;
-    ctx.fillStyle = wheelOptions[i].color;
-
-    ctx.beginPath();
-    ctx.arc(250, 250, outsideRadius, angle, angle + arc, false);
-    ctx.arc(250, 250, insideRadius, angle + arc, angle, true);
-    ctx.stroke();
-    ctx.fill();
-
-    ctx.save();
-    ctx.shadowOffsetX = -1;
-    ctx.shadowOffsetY = -1;
-    ctx.shadowBlur = 0;
-    ctx.shadowColor = "rgb(220,220,220)";
-    ctx.fillStyle = "black";
-    ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius, 250 + Math.sin(angle + arc / 2) * textRadius);
-    ctx.rotate(angle + arc / 2 + Math.PI / 2);
-    const text = wheelOptions[i].label;
-    ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
-    ctx.restore();
-  }
-}
-
-function spinWheel() {
-  spinAngleStart = Math.random() * 10 + 10;
-  spinTime = 0;
-  spinTimeTotal = Math.random() * 3 + 4 * 1000;
-  rotateWheel();
-}
-
-function rotateWheel() {
-  spinTime += 30;
-  if (spinTime >= spinTimeTotal) {
-    stopRotateWheel();
-    return;
-  }
-  const spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
-  startAngle += (spinAngle * Math.PI / 180);
-  drawWheel();
-  spinTimeout = setTimeout(rotateWheel, 30);
-}
-
-function stopRotateWheel() {
-  clearTimeout(spinTimeout);
-  const degrees = startAngle * 180 / Math.PI + 90;
-  const arcd = arc * 180 / Math.PI;
-  const index = Math.floor((360 - degrees % 360) / arcd);
-  ctx.save();
-  const text = wheelOptions[index].label;
-
-  const factDisplay = document.getElementById('fact-display');
-  const factCategoryTitle = document.getElementById('fact-category-title');
-  const factText = document.getElementById('fact-text');
-
-  let categoryKey;
-  let factsArray;
-
-  switch (text) {
-    case "Animals":
-      categoryKey = 'animals';
-      break;
-    case "Space":
-      categoryKey = 'space';
-      break;
-    case "Human Body":
-      categoryKey = 'body';
-      break;
-  }
-
-  factsArray = appData.amazing_facts[categoryKey];
-  const randomFact = factsArray[Math.floor(Math.random() * factsArray.length)];
-
-  factCategoryTitle.textContent = text;
-  factText.textContent = randomFact;
-  factDisplay.style.display = 'block';
-  AnimationUtils.fadeIn(factDisplay);
-  AccessibilityUtils.announce(`The wheel landed on ${text}. Fact: ${randomFact}`);
-
-  ctx.restore();
-}
+// OLD SPINNING WHEEL CODE REMOVED - NOW USING CARD-BASED DESIGN
 
 function easeOut(t, b, c, d) {
   const ts = (t /= d) * t;
@@ -1671,6 +1417,16 @@ document.addEventListener('DOMContentLoaded', function () {
     dateInput.value = today;
   }
 
+  // Initialize Amazing Facts
+  if (document.getElementById('amazing-facts')) {
+    initializeAmazingFacts();
+  }
+
+  // Initialize Recipe Generator
+  if (document.getElementById('recipe-generator')) {
+    initializeRecipeGenerator();
+  }
+
   // Load saved data after a short delay
   setTimeout(loadSavedData, 500);
 });
@@ -1682,6 +1438,668 @@ function setupQuiz() {
     startQuizBtn.addEventListener('click', startSwansQuiz);
   }
 }
+
+// ========================================
+// AMAZING FACTS FUNCTIONALITY - NEW DESIGN
+// ========================================
+
+// Enhanced facts data with more content
+const factsData = {
+  animals: [
+    "Octopuses have 3 hearts and blue blood! 🐙",
+    "Tigers have striped skin, not just striped fur! 🐅",
+    "Elephants are the only mammals that can't jump! 🐘",
+    "A shrimp's heart is in its head! 🦐",
+    "Giraffes only sleep 2 hours a day! 🦒",
+    "Dolphins have names for each other! 🐬",
+    "Honeybees dance to give directions! 🐝",
+    "Penguins propose with pebbles! 🐧",
+    "Butterflies taste with their feet! 🦋",
+    "A group of flamingos is called a 'flamboyance'! 🦩"
+  ],
+  space: [
+    "There are more stars in the sky than grains of sand on a beach! ✨",
+    "A day on Venus is longer than a year on Venus! 🪐",
+    "You could fit 1 million Earths inside the Sun! ☀️",
+    "Sound doesn't travel in space - it's completely silent! 🌌",
+    "Astronauts can grow up to 2 inches taller in space! 👨‍🚀",
+    "Saturn's moon Titan has lakes of liquid methane! 🌙",
+    "A single teaspoon of neutron star would weigh 6 billion tons! ⭐",
+    "Jupiter's Great Red Spot is a storm bigger than Earth! 🌪️",
+    "The footprints on the Moon will last millions of years! 👣",
+    "Mars has the largest volcano in our solar system! 🌋"
+  ],
+  body: [
+    "Your heart is about the same size as your fist! ❤️",
+    "You have about 10,000 taste buds! 👅",
+    "Your brain uses 20% of your body's energy! 🧠",
+    "You blink about 17,000 times a day! 👁️",
+    "Your bones are 4 times stronger than concrete! 🦴",
+    "You produce about 1.5 liters of saliva every day! 💧",
+    "Your nose can remember 50,000 different scents! 👃",
+    "You lose about 30,000 dead skin cells every minute! 🔬",
+    "Your stomach gets an entirely new lining every 3-4 days! 🍎",
+    "You have the same number of neck bones as a giraffe! 🦒"
+  ],
+  swans: [
+    "The Sydney Swans were originally from South Melbourne! 🏠",
+    "They've won 5 VFL/AFL premierships! 🏆",
+    "The SCG is their home ground since 1982! 🏟️",
+    "Their colors are red and white - the 'Bloods'! ❤️🤍",
+    "Lance 'Buddy' Franklin kicked over 1000 career goals! ⚽",
+    "Their song is 'Cheer Cheer the Red and the White'! 🎵",
+    "They moved to Sydney in 1982! 🚚",
+    "The SCG has hosted cricket since 1848! 🏏",
+    "Tony Lockett is the greatest goal scorer in VFL/AFL history! 🥅",
+    "The Swans have one of the most passionate fan bases in the AFL! 📣"
+  ],
+  dance: [
+    "Jazz dance originated in African American communities! 💃",
+    "It combines elements of African dance and European techniques! 🌍",
+    "Jazz dance became popular during the Jazz Age of the 1920s! 🎷",
+    "Famous jazz dancers include Bob Fosse and Gwen Verdon! ⭐",
+    "Jazz dance is characterized by sharp, quick movements! ⚡",
+    "It's often performed to jazz, funk, or pop music! 🎵",
+    "Jazz dance includes moves like jazz squares and kick ball changes! 🦵",
+    "It's a foundation for many other dance styles! 🏗️",
+    "Jazz dance helps improve flexibility and coordination! 🤸‍♀️",
+    "Modern jazz dance fusion includes hip-hop and contemporary elements! 🔄"
+  ]
+};
+
+// Current topic state
+let currentTopic = null;
+let currentFactIndex = 0;
+
+// Initialize new Amazing Facts system
+function initializeAmazingFacts() {
+  // Add event listeners for topic cards
+  document.querySelectorAll('.fact-topic-card').forEach(card => {
+    card.addEventListener('click', function() {
+      const topic = this.onclick.toString().match(/'([^']+)'/)[1];
+      selectFactTopic(topic);
+    });
+  });
+  
+  // Add event listener for next fact button
+  const nextFactBtn = document.getElementById('next-fact-btn');
+  if (nextFactBtn) {
+    nextFactBtn.addEventListener('click', showNextFact);
+  }
+}
+
+// Select a fact topic and show facts
+function selectFactTopic(topic) {
+  currentTopic = topic;
+  currentFactIndex = 0;
+  
+  // Hide topics grid
+  document.querySelector('.facts-topics-grid').style.display = 'none';
+  
+  // Show selected topic container
+  const container = document.getElementById('selected-topic-facts');
+  container.style.display = 'block';
+  
+  // Update topic title
+  const titles = {
+    animals: 'Amazing Animals 🦁',
+    space: 'Cool Space 🚀',
+    body: 'Your Body 💗',
+    swans: 'Sydney Swans 🏆',
+    dance: 'Jazz Dance 🎭'
+  };
+  
+  document.getElementById('current-topic-title').textContent = titles[topic];
+  
+  // Show first fact
+  showCurrentFact();
+  
+  // Scroll to facts display
+  container.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Show the current fact
+function showCurrentFact() {
+  if (!currentTopic || !factsData[currentTopic]) return;
+  
+  const facts = factsData[currentTopic];
+  const factText = facts[currentFactIndex];
+  
+  document.getElementById('current-fact-text').textContent = factText;
+  
+  // Add animation
+  const factCard = document.getElementById('current-fact-display');
+  factCard.style.opacity = '0';
+  factCard.style.transform = 'translateY(20px)';
+  
+  setTimeout(() => {
+    factCard.style.transition = 'all 0.5s ease';
+    factCard.style.opacity = '1';
+    factCard.style.transform = 'translateY(0)';
+  }, 100);
+}
+
+// Show next fact
+function showNextFact() {
+  if (!currentTopic || !factsData[currentTopic]) return;
+  
+  const facts = factsData[currentTopic];
+  currentFactIndex = (currentFactIndex + 1) % facts.length;
+  
+  showCurrentFact();
+  
+  // Show celebration for discovering new fact
+  showToast('New amazing fact discovered! ✨', 'success');
+}
+
+// Go back to topics selection
+function backToTopics() {
+  // Hide selected topic container
+  document.getElementById('selected-topic-facts').style.display = 'none';
+  
+  // Show topics grid
+  document.querySelector('.facts-topics-grid').style.display = 'grid';
+  
+  // Reset state
+  currentTopic = null;
+  currentFactIndex = 0;
+  
+  // Scroll back to top of facts section
+  document.getElementById('amazing-facts').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ========================================
+// RECIPE GENERATOR FUNCTIONALITY
+// ========================================
+
+// Recipe Generator State
+const recipeGeneratorState = {
+  ingredients: [],
+  preferences: {
+    dietary: 'none',
+    cuisine: 'any',
+    time: 'any'
+  },
+  currentInputMethod: 'text',
+  isGenerating: false,
+  recognition: null
+};
+
+// Sample recipe database for demonstration
+const sampleRecipes = [
+  {
+    title: "Veggie Pasta Delight",
+    description: "A colorful and nutritious pasta dish with fresh vegetables",
+    cookTime: "25 minutes",
+    difficulty: "Easy",
+    tags: ["Vegetarian", "Quick", "Healthy"],
+    ingredients: ["pasta", "tomatoes", "bell peppers", "onion", "garlic", "olive oil"],
+    instructions: [
+      "Boil water in a large pot and cook pasta according to package directions",
+      "Heat olive oil in a large pan over medium heat",
+      "Add chopped onion and garlic, cook until fragrant",
+      "Add bell peppers and cook for 3-4 minutes",
+      "Add tomatoes and season with salt and pepper",
+      "Drain pasta and toss with the vegetable mixture",
+      "Serve hot with fresh herbs if desired"
+    ],
+    tips: [
+      "Use whole wheat pasta for extra fiber",
+      "Add a splash of pasta water to help bind the sauce",
+      "Fresh basil makes this dish extra special"
+    ],
+    nutritionPerServing: {
+      calories: "320",
+      protein: "12g",
+      carbs: "58g",
+      fat: "8g",
+      fiber: "6g"
+    }
+  },
+  {
+    title: "Quick Chicken Stir-Fry",
+    description: "A protein-packed stir-fry that's ready in minutes",
+    cookTime: "15 minutes",
+    difficulty: "Easy",
+    tags: ["High Protein", "Quick", "Asian"],
+    ingredients: ["chicken", "broccoli", "carrots", "soy sauce", "garlic", "ginger"],
+    instructions: [
+      "Cut chicken into bite-sized pieces",
+      "Heat oil in a large wok or skillet over high heat",
+      "Add chicken and cook until golden brown",
+      "Add garlic and ginger, stir for 30 seconds",
+      "Add vegetables and stir-fry for 3-4 minutes",
+      "Add soy sauce and toss everything together",
+      "Serve immediately over rice"
+    ],
+    tips: [
+      "Keep ingredients prepped and ready before cooking",
+      "High heat is key for proper stir-frying",
+      "Don't overcrowd the pan"
+    ],
+    nutritionPerServing: {
+      calories: "280",
+      protein: "25g",
+      carbs: "12g",
+      fat: "15g",
+      fiber: "4g"
+    }
+  }
+];
+
+// Initialize Recipe Generator
+function initializeRecipeGenerator() {
+  setupInputMethods();
+  setupTextInput();
+  setupVoiceInput();
+  setupPhotoInput();
+  setupPreferences();
+  setupGenerateButton();
+}
+
+// Setup Input Method Switching
+function setupInputMethods() {
+  const inputMethods = document.querySelectorAll('.pantry-input-method');
+  
+  inputMethods.forEach(method => {
+    method.addEventListener('click', () => {
+      const methodType = method.dataset.method;
+      switchInputMethod(methodType);
+    });
+  });
+}
+
+function switchInputMethod(method) {
+  recipeGeneratorState.currentInputMethod = method;
+  
+  // Update button states
+  document.querySelectorAll('.pantry-input-method').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  document.querySelector(`[data-method="${method}"]`).classList.add('active');
+  
+  // Update input containers
+  document.querySelectorAll('.pantry-input-section').forEach(container => {
+    container.classList.remove('active');
+  });
+  
+  document.getElementById(`${method}-input`).classList.add('active');
+  
+  // Focus appropriate input
+  if (method === 'text') {
+    document.getElementById('ingredient-input').focus();
+  }
+}
+
+// Setup Text Input
+function setupTextInput() {
+  const ingredientInput = document.getElementById('ingredient-input');
+  const addBtn = document.getElementById('add-ingredient-btn');
+  
+  if (ingredientInput) {
+    ingredientInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addIngredient();
+      }
+    });
+  }
+  
+  if (addBtn) {
+    addBtn.addEventListener('click', addIngredient);
+  }
+}
+
+function addIngredient() {
+  const input = document.getElementById('ingredient-input');
+  const ingredient = input.value.trim();
+  
+  if (ingredient && !recipeGeneratorState.ingredients.includes(ingredient.toLowerCase())) {
+    recipeGeneratorState.ingredients.push(ingredient.toLowerCase());
+    input.value = '';
+    updateIngredientTags();
+    
+    // Show success feedback
+    showToast(`Added "${ingredient}" to your ingredients!`, 'success');
+  } else if (recipeGeneratorState.ingredients.includes(ingredient.toLowerCase())) {
+    showToast(`"${ingredient}" is already in your list!`, 'warning');
+  }
+}
+
+function updateIngredientTags() {
+  const tagsContainer = document.getElementById('ingredient-tags');
+  
+  tagsContainer.innerHTML = recipeGeneratorState.ingredients.map(ingredient => `
+    <div class="ingredient-tag" role="listitem">
+      <span>${ingredient}</span>
+      <span class="remove" onclick="removeIngredient('${ingredient}')" aria-label="Remove ${ingredient}">×</span>
+    </div>
+  `).join('');
+}
+
+function removeIngredient(ingredient) {
+  recipeGeneratorState.ingredients = recipeGeneratorState.ingredients.filter(i => i !== ingredient);
+  updateIngredientTags();
+  showToast(`Removed "${ingredient}" from your ingredients`, 'info');
+}
+
+// Setup Voice Input
+function setupVoiceInput() {
+  const voiceBtn = document.getElementById('voice-btn');
+  
+  if (voiceBtn) {
+    voiceBtn.addEventListener('click', toggleVoiceRecording);
+  }
+  
+  // Check for speech recognition support
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recipeGeneratorState.recognition = new SpeechRecognition();
+    
+    recipeGeneratorState.recognition.continuous = false;
+    recipeGeneratorState.recognition.interimResults = false;
+    recipeGeneratorState.recognition.lang = 'en-US';
+    
+    recipeGeneratorState.recognition.onresult = handleVoiceResult;
+    recipeGeneratorState.recognition.onerror = handleVoiceError;
+    recipeGeneratorState.recognition.onend = stopVoiceRecording;
+  }
+}
+
+function toggleVoiceRecording() {
+  const voiceBtn = document.getElementById('voice-btn');
+  const voiceStatus = document.getElementById('voice-status');
+  
+  if (!recipeGeneratorState.recognition) {
+    showToast('Voice recognition is not supported in your browser', 'error');
+    return;
+  }
+  
+  if (voiceBtn.classList.contains('recording')) {
+    recipeGeneratorState.recognition.stop();
+  } else {
+    voiceBtn.classList.add('recording');
+    voiceStatus.textContent = 'Listening... Speak your ingredients';
+    recipeGeneratorState.recognition.start();
+  }
+}
+
+function handleVoiceResult(event) {
+  const transcript = event.results[0][0].transcript;
+  const ingredients = transcript.split(/,|\sand\s|\sor\s/).map(s => s.trim().toLowerCase());
+  
+  ingredients.forEach(ingredient => {
+    if (ingredient && !recipeGeneratorState.ingredients.includes(ingredient)) {
+      recipeGeneratorState.ingredients.push(ingredient);
+    }
+  });
+  
+  updateIngredientTags();
+  showToast(`Added ingredients from voice: ${transcript}`, 'success');
+  stopVoiceRecording();
+}
+
+function handleVoiceError(event) {
+  console.error('Voice recognition error:', event.error);
+  showToast('Voice recognition failed. Please try again.', 'error');
+  stopVoiceRecording();
+}
+
+function stopVoiceRecording() {
+  const voiceBtn = document.getElementById('voice-btn');
+  const voiceStatus = document.getElementById('voice-status');
+  
+  voiceBtn.classList.remove('recording');
+  voiceStatus.textContent = '';
+}
+
+// Setup Photo Input
+function setupPhotoInput() {
+  const photoUpload = document.getElementById('photo-upload');
+  const uploadArea = document.querySelector('.pantry-photo-upload');
+  
+  if (uploadArea) {
+    uploadArea.addEventListener('click', () => photoUpload.click());
+    uploadArea.addEventListener('dragover', handleDragOver);
+    uploadArea.addEventListener('drop', handlePhotoDrop);
+  }
+  
+  if (photoUpload) {
+    photoUpload.addEventListener('change', handlePhotoUpload);
+  }
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.currentTarget.style.borderColor = 'var(--color-primary)';
+}
+
+function handlePhotoDrop(e) {
+  e.preventDefault();
+  const files = e.dataTransfer.files;
+  if (files.length > 0) {
+    handlePhotoFile(files[0]);
+  }
+}
+
+function handlePhotoUpload(e) {
+  const file = e.target.files[0];
+  if (file) {
+    handlePhotoFile(file);
+  }
+}
+
+function handlePhotoFile(file) {
+  if (!file.type.startsWith('image/')) {
+    showToast('Please select an image file', 'error');
+    return;
+  }
+  
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const preview = document.getElementById('photo-preview');
+    preview.innerHTML = `
+      <img src="${e.target.result}" alt="Uploaded ingredients" />
+      <p>Photo uploaded! We've detected: tomatoes, onions, garlic</p>
+    `;
+    
+    // Simulate ingredient detection
+    const detectedIngredients = ['tomatoes', 'onions', 'garlic'];
+    detectedIngredients.forEach(ingredient => {
+      if (!recipeGeneratorState.ingredients.includes(ingredient)) {
+        recipeGeneratorState.ingredients.push(ingredient);
+      }
+    });
+    
+    updateIngredientTags();
+    showToast('Ingredients detected from photo!', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+// Setup Preferences
+function setupPreferences() {
+  const preferencePills = document.querySelectorAll('.preference-pill');
+  
+  preferencePills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const preference = pill.dataset.preference;
+      const value = pill.dataset.value;
+      
+      // Remove selected class from siblings
+      pill.parentElement.querySelectorAll('.preference-pill').forEach(p => {
+        p.classList.remove('selected');
+      });
+      
+      // Add selected class to clicked pill
+      pill.classList.add('selected');
+      
+      // Update state
+      recipeGeneratorState.preferences[preference] = value;
+    });
+  });
+}
+
+// Setup Generate Button
+function setupGenerateButton() {
+  const generateBtn = document.getElementById('generate-recipe-btn');
+  
+  if (generateBtn) {
+    generateBtn.addEventListener('click', generateRecipes);
+  }
+}
+
+// Generate Recipes
+function generateRecipes() {
+  if (recipeGeneratorState.ingredients.length === 0) {
+    showToast('Please add some ingredients first!', 'warning');
+    return;
+  }
+  
+  if (recipeGeneratorState.isGenerating) return;
+  
+  recipeGeneratorState.isGenerating = true;
+  showLoadingState();
+  
+  // Simulate API call with delay
+  setTimeout(() => {
+    const matchingRecipes = findMatchingRecipes();
+    displayRecipes(matchingRecipes);
+    hideLoadingState();
+    recipeGeneratorState.isGenerating = false;
+  }, 2000);
+}
+
+function findMatchingRecipes() {
+  // Simple matching algorithm for demonstration
+  return sampleRecipes.filter(recipe => {
+    const matchingIngredients = recipe.ingredients.filter(ingredient => 
+      recipeGeneratorState.ingredients.some(userIngredient => 
+        ingredient.includes(userIngredient) || userIngredient.includes(ingredient)
+      )
+    );
+    return matchingIngredients.length > 0;
+  });
+}
+
+function showLoadingState() {
+  document.getElementById('loading-container').style.display = 'block';
+  document.getElementById('recipe-results').style.display = 'none';
+  document.getElementById('generate-recipe-btn').disabled = true;
+}
+
+function hideLoadingState() {
+  document.getElementById('loading-container').style.display = 'none';
+  document.getElementById('generate-recipe-btn').disabled = false;
+}
+
+function displayRecipes(recipes) {
+  const resultsContainer = document.getElementById('recipe-results');
+  const gridContainer = document.getElementById('recipe-grid');
+  
+  if (recipes.length === 0) {
+    gridContainer.innerHTML = `
+      <div class="no-recipes">
+        <h3>No recipes found</h3>
+        <p>Try adding more ingredients or adjusting your preferences!</p>
+      </div>
+    `;
+  } else {
+    gridContainer.innerHTML = recipes.map(recipe => `
+      <div class="recipe-card" onclick="showRecipeDetails(${JSON.stringify(recipe).replace(/"/g, '&quot;')})">
+        <div class="recipe-card-header">
+          <h4 class="recipe-card-title">${recipe.title}</h4>
+        </div>
+        <div class="recipe-card-meta">
+          <span>⏱️ ${recipe.cookTime}</span>
+          <span>👨‍🍳 ${recipe.difficulty}</span>
+        </div>
+        <p class="recipe-card-description">${recipe.description}</p>
+        <div class="recipe-card-tags">
+          ${recipe.tags.map(tag => `<span class="recipe-tag">${tag}</span>`).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  resultsContainer.style.display = 'block';
+  resultsContainer.scrollIntoView({ behavior: 'smooth' });
+}
+
+function showRecipeDetails(recipe) {
+  const modal = document.getElementById('recipe-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBody = document.getElementById('modal-body');
+  
+  modalTitle.textContent = recipe.title;
+  
+  modalBody.innerHTML = `
+    <div class="ingredients-list">
+      <h3>Ingredients</h3>
+      <ul>
+        ${recipe.ingredients.map(ingredient => `
+          <li>
+            <div class="ingredient-check" onclick="toggleIngredientCheck(this)"></div>
+            ${ingredient}
+          </li>
+        `).join('')}
+      </ul>
+    </div>
+    
+    <div class="instructions">
+      <h3>Instructions</h3>
+      ${recipe.instructions.map((step, index) => `
+        <div class="instruction-step">
+          <div class="step-number">${index + 1}</div>
+          <div class="step-content">${step}</div>
+        </div>
+      `).join('')}
+    </div>
+    
+    ${recipe.tips ? `
+      <div class="tips" style="background: #fef3c7; padding: 20px; border-radius: 12px; margin: 20px 0;">
+        <h3 style="color: #92400e; margin-bottom: 15px;">Pro Tips</h3>
+        <ul style="list-style: none; color: #92400e;">
+          ${recipe.tips.map(tip => `<li style="margin-bottom: 10px;">💡 ${tip}</li>`).join('')}
+        </ul>
+      </div>
+    ` : ''}
+    
+    ${recipe.nutritionPerServing ? `
+      <div class="nutrition" style="background: #f3f4f6; padding: 20px; border-radius: 12px;">
+        <h3 style="margin-bottom: 15px;">Nutrition per Serving</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px;">
+          <div><strong>Calories:</strong> ${recipe.nutritionPerServing.calories}</div>
+          <div><strong>Protein:</strong> ${recipe.nutritionPerServing.protein}</div>
+          <div><strong>Carbs:</strong> ${recipe.nutritionPerServing.carbs}</div>
+          <div><strong>Fat:</strong> ${recipe.nutritionPerServing.fat}</div>
+          <div><strong>Fiber:</strong> ${recipe.nutritionPerServing.fiber}</div>
+        </div>
+      </div>
+    ` : ''}
+  `;
+  
+  modal.style.display = 'flex';
+  modal.setAttribute('aria-hidden', 'false');
+}
+
+function toggleIngredientCheck(element) {
+  element.classList.toggle('checked');
+}
+
+function closeRecipeModal() {
+  const modal = document.getElementById('recipe-modal');
+  modal.style.display = 'none';
+  modal.setAttribute('aria-hidden', 'true');
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', (event) => {
+  const modal = document.getElementById('recipe-modal');
+  if (event.target === modal) {
+    closeRecipeModal();
+  }
+});
 
 // Export for global access (if needed)
 window.PennysPalace = {
@@ -1695,5 +2113,18 @@ window.PennysPalace = {
   saveJournalEntry,
   printRecipe,
   showCelebration,
-  closeCelebration
+  closeCelebration,
+  // Amazing Facts functions
+  initializeAmazingFacts,
+  selectFactTopic,
+  showNextFact,
+  backToTopics,
+  // Recipe Generator functions
+  initializeRecipeGenerator,
+  addIngredient,
+  removeIngredient,
+  generateRecipes,
+  showRecipeDetails,
+  closeRecipeModal,
+  toggleIngredientCheck
 };

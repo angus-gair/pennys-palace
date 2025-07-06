@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Facts Quiz | Penny's Palace</title>
+    <link rel="stylesheet" href="../style-modern.css">
+    <style>
+        .game-container {
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .quiz-question {
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .quiz-option {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <a href="../index-modern.html" class="back-btn">← Back to Games</a>
+    
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🧠 Fun Facts Quiz</h1>
+            <p>Test your amazing facts knowledge!</p>
+            <div class="game-score">Score: <span id="facts-score">0</span></div>
+        </div>
+        
+        <div class="quiz-question" id="facts-question">Click Start to begin the quiz!</div>
+        
+        <div class="quiz-options" id="facts-options">
+            <!-- Quiz options will be populated by JavaScript -->
+        </div>
+        
+        <button class="btn btn--primary" onclick="startFactsQuiz()" style="width: 100%;">
+            Start New Quiz
+        </button>
+        
+        <div class="quiz-feedback" id="facts-feedback" style="margin-top: 1rem; text-align: center;"></div>
+    </div>
+    
+    <script src="../app-modern.js"></script>
+</body>
+</html>

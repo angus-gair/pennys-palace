@@ -37,12 +37,6 @@
                     </h1>
                     <p class="header-subtitle">Your magical space for fun, learning, and creativity!</p>
                 </div>
-
-                <!-- Theme Toggle Button -->
-                <button class="theme-toggle" aria-label="Toggle dark mode" id="theme-toggle">
-                    <span class="sun-icon" aria-hidden="true">☀️</span>
-                    <span class="moon-icon" aria-hidden="true">🌙</span>
-                </button>
             </div>
         </div>
     </header>
@@ -57,8 +51,8 @@
                     </button>
                 </li>
                 <li role="presentation">
-                    <button class="nav-btn" data-section="cooking-fun" role="tab" aria-selected="false">
-                        <span aria-hidden="true">🍪</span> Cooking Fun
+                    <button class="nav-btn" data-section="recipe-generator" role="tab" aria-selected="false">
+                        <span aria-hidden="true">🍳</span> Recipe Generator
                     </button>
                 </li>
                 <li role="presentation">
@@ -80,106 +74,264 @@
         <div class="container">
             <!-- Amazing Facts Section -->
             <section id="amazing-facts" class="content-section active" aria-labelledby="facts-title">
-                <header>
-                    <h2 id="facts-title" class="section-title">
-                        <span aria-hidden="true">🤩</span> Amazing Facts
+                <header class="facts-header">
+                    <h2 id="facts-title" class="facts-main-title">
+                        <span aria-hidden="true">✨</span> Penny's Amazing Facts
                     </h2>
+                    <p class="facts-subtitle">Choose a topic to start exploring!</p>
                 </header>
 
-                <div class="facts-container">
-                    <div class="wheel-wrapper">
-                        <div class="wheel-pointer"></div>
-                        <canvas id="wheel-canvas" width="500" height="500"></canvas>
+                <div class="facts-topics-grid">
+                    <!-- Amazing Animals Card -->
+                    <div class="fact-topic-card animals-card" onclick="selectFactTopic('animals')" 
+                         aria-label="Learn about amazing animals">
+                        <div class="topic-card-background animals-bg"></div>
+                        <div class="topic-card-content">
+                            <div class="topic-icon">🦁</div>
+                            <h3 class="topic-title">Amazing Animals</h3>
+                            <p class="topic-description">Discover the wild world of animals!</p>
+                        </div>
                     </div>
-                    <button id="spin-btn" class="btn btn--primary random-fact-btn">
-                        <span aria-hidden="true">🎡</span> Spin the Wheel!
-                    </button>
-                    <div id="fact-display" class="fact-display-card card" style="display: none;" aria-live="polite">
-                        <h3 id="fact-category-title"></h3>
-                        <p id="fact-text"></p>
+
+                    <!-- Cool Space Card -->
+                    <div class="fact-topic-card space-card" onclick="selectFactTopic('space')"
+                         aria-label="Journey through the cosmos">
+                        <div class="topic-card-background space-bg"></div>
+                        <div class="topic-card-content">
+                            <div class="topic-icon">🚀</div>
+                            <h3 class="topic-title">Cool Space</h3>
+                            <p class="topic-description">Journey through the cosmos!</p>
+                        </div>
+                    </div>
+
+                    <!-- Your Body Card -->
+                    <div class="fact-topic-card body-card" onclick="selectFactTopic('body')"
+                         aria-label="The wonders inside you">
+                        <div class="topic-card-background body-bg"></div>
+                        <div class="topic-card-content">
+                            <div class="topic-icon">💗</div>
+                            <h3 class="topic-title">Your Body</h3>
+                            <p class="topic-description">The wonders inside you!</p>
+                        </div>
+                    </div>
+
+                    <!-- Sydney Swans Card -->
+                    <div class="fact-topic-card swans-card" onclick="selectFactTopic('swans')"
+                         aria-label="All about Penny's favourite team">
+                        <div class="topic-card-background swans-bg"></div>
+                        <div class="topic-card-content">
+                            <div class="topic-icon">🏆</div>
+                            <h3 class="topic-title">Sydney Swans</h3>
+                            <p class="topic-description">Go Bloods! All about Penny's favourite team.</p>
+                        </div>
+                    </div>
+
+                    <!-- Jazz Dance Card -->
+                    <div class="fact-topic-card dance-card" onclick="selectFactTopic('dance')"
+                         aria-label="Learn the moves and history of jazz">
+                        <div class="topic-card-background dance-bg"></div>
+                        <div class="topic-card-content">
+                            <div class="topic-icon">🎭</div>
+                            <h3 class="topic-title">Jazz Dance</h3>
+                            <p class="topic-description">Learn the moves and history of jazz!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected Topic Facts Display -->
+                <div id="selected-topic-facts" class="selected-topic-container" style="display: none;">
+                    <div class="topic-facts-header">
+                        <button class="back-to-topics-btn" onclick="backToTopics()" aria-label="Back to topics">
+                            ← Back to Topics
+                        </button>
+                        <h3 id="current-topic-title" class="current-topic-title"></h3>
+                    </div>
+                    <div class="facts-display">
+                        <div id="current-fact-display" class="current-fact-card">
+                            <p id="current-fact-text" class="fact-text"></p>
+                        </div>
+                        <button id="next-fact-btn" class="next-fact-btn btn btn--primary">
+                            Next Amazing Fact! ✨
+                        </button>
                     </div>
                 </div>
             </section>
 
 
-            <!-- Cooking Fun Section -->
-            <section id="cooking-fun" class="content-section" aria-labelledby="cooking-title">
-                <header>
-                    <h2 id="cooking-title" class="section-title">
-                        <span aria-hidden="true">🍪</span> Cooking Fun
-                    </h2>
-                </header>
+            <!-- Recipe Generator Section -->
+            <section id="recipe-generator" class="content-section" aria-labelledby="recipe-generator-title">
+                <div class="pantry-to-plate-container">
+                    <!-- Header -->
+                    <header class="pantry-header">
+                        <h2 id="recipe-generator-title" class="pantry-main-title">
+                            <span aria-hidden="true">🍽️</span> Pantry to Plate
+                        </h2>
+                        <p class="pantry-subtitle">Transform your ingredients into delicious recipes with AI</p>
+                    </header>
 
-                <div class="recipes-container" role="region" aria-label="Recipe collection">
-                    <article class="recipe-card card" id="recipe-1" aria-labelledby="muffin-title">
-                        <header>
-                            <h3 id="muffin-title">
-                                <span aria-hidden="true">🧁</span> Super Simple Banana Muffins
-                            </h3>
-                            <div class="recipe-meta">
-                                <span class="difficulty">Easy <span aria-hidden="true">🌟</span></span>
-                                <time class="time" datetime="PT30M">30 minutes</time>
-                            </div>
-                        </header>
-
-                        <div class="recipe-content">
-                            <section class="ingredients" aria-labelledby="muffin-ingredients-title">
-                                <h4 id="muffin-ingredients-title">Ingredients:</h4>
-                                <ul id="muffin-ingredients" role="list">
-                                    <!-- Ingredients will be populated by JavaScript -->
-                                </ul>
-                            </section>
-
-                            <section class="instructions" aria-labelledby="muffin-instructions-title">
-                                <h4 id="muffin-instructions-title">Instructions:</h4>
-                                <ol id="muffin-instructions" role="list">
-                                    <!-- Instructions will be populated by JavaScript -->
-                                </ol>
-                            </section>
+                    <!-- Main Content Card -->
+                    <div class="pantry-main-card">
+                        <!-- Kitchen Question -->
+                        <div class="kitchen-question">
+                            <h3>What's in your kitchen?</h3>
                         </div>
 
-                        <footer>
-                            <button class="btn btn--secondary print-recipe-btn" onclick="printRecipe('recipe-1')"
-                                aria-label="Print banana muffin recipe">
-                                <span aria-hidden="true">🖨️</span> Print Recipe
+                        <!-- Input Methods -->
+                        <div class="pantry-input-methods">
+                            <button class="pantry-input-method active" data-method="text">
+                                <div class="method-icon">⌨️</div>
+                                <div class="method-text">Type</div>
                             </button>
-                        </footer>
-                    </article>
-
-                    <article class="recipe-card card" id="recipe-2" aria-labelledby="cookie-title">
-                        <header>
-                            <h3 id="cookie-title">
-                                <span aria-hidden="true">🍪</span> No-Bake Cookie Balls
-                            </h3>
-                            <div class="recipe-meta">
-                                <span class="difficulty">Super Easy <span aria-hidden="true">🌟</span></span>
-                                <time class="time" datetime="PT15M">15 minutes + chilling</time>
-                            </div>
-                        </header>
-
-                        <div class="recipe-content">
-                            <section class="ingredients" aria-labelledby="cookie-ingredients-title">
-                                <h4 id="cookie-ingredients-title">Ingredients:</h4>
-                                <ul id="cookie-ingredients" role="list">
-                                    <!-- Ingredients will be populated by JavaScript -->
-                                </ul>
-                            </section>
-
-                            <section class="instructions" aria-labelledby="cookie-instructions-title">
-                                <h4 id="cookie-instructions-title">Instructions:</h4>
-                                <ol id="cookie-instructions" role="list">
-                                    <!-- Instructions will be populated by JavaScript -->
-                                </ol>
-                            </section>
+                            <button class="pantry-input-method" data-method="voice">
+                                <div class="method-icon">🎤</div>
+                                <div class="method-text">Speak</div>
+                            </button>
+                            <button class="pantry-input-method" data-method="photo">
+                                <div class="method-icon">📷</div>
+                                <div class="method-text">Photo</div>
+                            </button>
                         </div>
 
-                        <footer>
-                            <button class="btn btn--secondary print-recipe-btn" onclick="printRecipe('recipe-2')"
-                                aria-label="Print cookie balls recipe">
-                                <span aria-hidden="true">🖨️</span> Print Recipe
+                        <!-- Text Input -->
+                        <div id="text-input" class="pantry-input-section active">
+                            <input type="text" id="ingredient-input" class="pantry-ingredient-input" 
+                                   placeholder="Type an ingredient and press Enter...">
+                        </div>
+
+                        <!-- Voice Input -->
+                        <div id="voice-input" class="pantry-input-section">
+                            <button class="pantry-voice-btn" id="voice-btn">
+                                <span class="voice-icon">🎤</span>
+                                <span class="voice-text">Click to speak</span>
                             </button>
-                        </footer>
-                    </article>
+                            <div class="voice-status" id="voice-status"></div>
+                        </div>
+
+                        <!-- Photo Input -->
+                        <div id="photo-input" class="pantry-input-section">
+                            <div class="pantry-photo-upload" id="photo-upload-area">
+                                <input type="file" id="photo-upload" accept="image/*" capture="environment">
+                                <div class="photo-upload-content">
+                                    <span class="upload-icon">📷</span>
+                                    <span class="upload-text">Click to take photo or upload</span>
+                                </div>
+                            </div>
+                            <div class="photo-preview" id="photo-preview"></div>
+                        </div>
+
+                        <!-- Ingredient Tags Display -->
+                        <div class="ingredient-tags-area">
+                            <div class="ingredient-tags" id="ingredient-tags">
+                                <!-- Ingredient tags will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Dietary Preferences -->
+                        <div class="dietary-preferences">
+                            <h4 class="preferences-label">Dietary Preferences</h4>
+                            <div class="preference-pills">
+                                <button class="preference-pill dietary-pill" data-preference="dietary" data-value="vegetarian">
+                                    <span class="pill-icon">🥗</span> Vegetarian
+                                </button>
+                                <button class="preference-pill dietary-pill" data-preference="dietary" data-value="vegan">
+                                    <span class="pill-icon">🌱</span> Vegan
+                                </button>
+                                <button class="preference-pill dietary-pill" data-preference="dietary" data-value="gluten-free">
+                                    <span class="pill-icon">🌾</span> Gluten-free
+                                </button>
+                                <button class="preference-pill dietary-pill" data-preference="dietary" data-value="dairy-free">
+                                    <span class="pill-icon">🥛</span> Dairy-free
+                                </button>
+                                <button class="preference-pill dietary-pill" data-preference="dietary" data-value="keto">
+                                    <span class="pill-icon">🥑</span> Keto
+                                </button>
+                                <button class="preference-pill dietary-pill" data-preference="dietary" data-value="paleo">
+                                    <span class="pill-icon">🥩</span> Paleo
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Cuisine Type -->
+                        <div class="cuisine-preferences">
+                            <h4 class="preferences-label">Cuisine Type</h4>
+                            <div class="preference-pills">
+                                <button class="preference-pill cuisine-pill" data-preference="cuisine" data-value="italian">
+                                    <span class="pill-icon">🇮🇹</span> Italian
+                                </button>
+                                <button class="preference-pill cuisine-pill" data-preference="cuisine" data-value="asian">
+                                    <span class="pill-icon">🥢</span> Asian
+                                </button>
+                                <button class="preference-pill cuisine-pill" data-preference="cuisine" data-value="mexican">
+                                    <span class="pill-icon">🌮</span> Mexican
+                                </button>
+                                <button class="preference-pill cuisine-pill" data-preference="cuisine" data-value="mediterranean">
+                                    <span class="pill-icon">🫒</span> Mediterranean
+                                </button>
+                                <button class="preference-pill cuisine-pill" data-preference="cuisine" data-value="american">
+                                    <span class="pill-icon">🍔</span> American
+                                </button>
+                                <button class="preference-pill cuisine-pill" data-preference="cuisine" data-value="indian">
+                                    <span class="pill-icon">🍛</span> Indian
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Cooking Time -->
+                        <div class="time-preferences">
+                            <h4 class="preferences-label">Cooking Time</h4>
+                            <div class="preference-pills">
+                                <button class="preference-pill time-pill" data-preference="time" data-value="15">
+                                    <span class="pill-icon">⚡</span> Under 15 min
+                                </button>
+                                <button class="preference-pill time-pill" data-preference="time" data-value="30">
+                                    <span class="pill-icon">⏰</span> Under 30 min
+                                </button>
+                                <button class="preference-pill time-pill" data-preference="time" data-value="60">
+                                    <span class="pill-icon">🕐</span> Under 1 hour
+                                </button>
+                                <button class="preference-pill time-pill" data-preference="time" data-value="any">
+                                    <span class="pill-icon">⏳</span> Any time
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Generate Button -->
+                        <button class="pantry-generate-btn" id="generate-recipe-btn">
+                            Generate Recipe Ideas ✨
+                        </button>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="pantry-loading" id="loading-container" style="display: none;">
+                        <div class="cooking-animation">
+                            <div class="pot">🍲</div>
+                            <div class="steam">💨</div>
+                        </div>
+                        <p class="loading-text">Cooking up something delicious...</p>
+                    </div>
+
+                    <!-- Recipe Results -->
+                    <div class="pantry-results" id="recipe-results" style="display: none;">
+                        <h3 class="results-title">Your Recipe Ideas</h3>
+                        <div class="recipe-grid" id="recipe-grid">
+                            <!-- Recipe cards will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recipe Modal -->
+                <div class="recipe-modal" id="recipe-modal" style="display: none;" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="modal-title" class="modal-title">Recipe Details</h3>
+                            <button class="modal-close" onclick="closeRecipeModal()" aria-label="Close recipe details">
+                                <span aria-hidden="true">✕</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="modal-body">
+                            <!-- Recipe details will be populated by JavaScript -->
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -191,117 +343,83 @@
                     </h2>
                 </header>
 
-                <div class="games-container" role="region" aria-label="Game collection">
-                    <article class="game-card card" id="memory-game" aria-labelledby="memory-game-title">
-                        <header>
-                            <h3 id="memory-game-title">
-                                <span aria-hidden="true">🧠</span> Memory Match
-                            </h3>
-                            <p>Match Sydney Swans players and facts!</p>
-                        </header>
-
-                        <button class="btn btn--primary" onclick="startMemoryGame()">
-                            Play Memory Match
-                        </button>
-
-                        <div class="game-area" id="memory-game-area" style="display: none;" role="application"
-                            aria-labelledby="memory-game-title">
-                            <div class="game-score" aria-live="polite">
-                                Score: <span id="memory-score">0</span>
-                            </div>
-                            <div class="memory-grid" id="memory-grid" role="grid" aria-label="Memory card game">
-                                <!-- Memory cards will be populated by JavaScript -->
+                <div class="games-grid" role="region" aria-label="Game collection">
+                    <article class="elegant-game-card" onclick="window.location.href='games/memory-match.html'" aria-labelledby="memory-game-title">
+                        <div class="game-card-background memory-bg"></div>
+                        <div class="game-card-content">
+                            <div class="game-icon">🧠</div>
+                            <h3 id="memory-game-title" class="game-title">Memory Match</h3>
+                            <p class="game-description">Match Sydney Swans players and facts!</p>
+                            <div class="game-stats">
+                                <span class="difficulty">Easy</span>
+                                <span class="duration">5-10 min</span>
                             </div>
                         </div>
                     </article>
 
-                    <article class="game-card card" id="word-scramble" aria-labelledby="scramble-title">
-                        <header>
-                            <h3 id="scramble-title">
-                                <span aria-hidden="true">🔤</span> Word Scramble
-                            </h3>
-                            <p>Unscramble dance and AFL words!</p>
-                        </header>
-
-                        <button class="btn btn--primary" onclick="startWordScramble()">
-                            Play Word Scramble
-                        </button>
-
-                        <div class="game-area" id="word-scramble-area" style="display: none;" role="application"
-                            aria-labelledby="scramble-title">
-                            <div class="game-score" aria-live="polite">
-                                Score: <span id="scramble-score">0</span>
-                            </div>
-                            <div class="scramble-word" id="scramble-word" aria-label="Scrambled word"></div>
-                            <label for="scramble-input" class="sr-only">Enter your answer</label>
-                            <input type="text" class="form-control" id="scramble-input"
-                                placeholder="Type your answer here..." aria-describedby="scramble-feedback">
-                            <button class="btn btn--secondary" onclick="checkScrambleAnswer()">
-                                Check Answer
-                            </button>
-                            <div class="scramble-feedback" id="scramble-feedback" aria-live="polite" role="status">
+                    <article class="elegant-game-card" onclick="window.location.href='games/word-scramble.html'" aria-labelledby="scramble-title">
+                        <div class="game-card-background words-bg"></div>
+                        <div class="game-card-content">
+                            <div class="game-icon">🔤</div>
+                            <h3 id="scramble-title" class="game-title">Word Scramble</h3>
+                            <p class="game-description">Unscramble dance and AFL words!</p>
+                            <div class="game-stats">
+                                <span class="difficulty">Medium</span>
+                                <span class="duration">3-5 min</span>
                             </div>
                         </div>
                     </article>
 
-                    <article class="game-card card" id="facts-quiz" aria-labelledby="facts-quiz-title">
-                        <header>
-                            <h3 id="facts-quiz-title">
-                                <span aria-hidden="true">🧠</span> Fun Facts Quiz
-                            </h3>
-                            <p>Test your amazing facts knowledge!</p>
-                        </header>
-
-                        <button class="btn btn--primary" onclick="startFactsQuiz()">
-                            Play Facts Quiz
-                        </button>
-
-                        <div class="game-area" id="facts-quiz-area" style="display: none;" role="application"
-                            aria-labelledby="facts-quiz-title">
-                            <div class="game-score" aria-live="polite">
-                                Score: <span id="facts-score">0</span>
+                    <article class="elegant-game-card" onclick="window.location.href='games/facts-quiz.html'" aria-labelledby="facts-quiz-title">
+                        <div class="game-card-background quiz-bg"></div>
+                        <div class="game-card-content">
+                            <div class="game-icon">🧠</div>
+                            <h3 id="facts-quiz-title" class="game-title">Fun Facts Quiz</h3>
+                            <p class="game-description">Test your amazing facts knowledge!</p>
+                            <div class="game-stats">
+                                <span class="difficulty">Easy</span>
+                                <span class="duration">5-8 min</span>
                             </div>
-                            <div class="quiz-question" id="facts-question" aria-live="polite"></div>
-                            <div class="quiz-options" id="facts-options" role="radiogroup"
-                                aria-labelledby="facts-question"></div>
-                            <div class="quiz-feedback" id="facts-feedback" aria-live="polite" role="status"></div>
                         </div>
                     </article>
-                    <article class="game-card card" id="tetris-game" aria-labelledby="tetris-game-title">
-                        <header>
-                            <h3 id="tetris-game-title">
-                                <span aria-hidden="true">🧱</span> Tetris
-                            </h3>
-                            <p>A classic block-stacking game.</p>
-                        </header>
-                        <a href="games/tetris.html" class="btn btn--primary">
-                            Play Tetris
-                        </a>
+
+                    <article class="elegant-game-card" onclick="window.location.href='games/tetris.html'" aria-labelledby="tetris-game-title">
+                        <div class="game-card-background tetris-bg"></div>
+                        <div class="game-card-content">
+                            <div class="game-icon">🧱</div>
+                            <h3 id="tetris-game-title" class="game-title">Tetris</h3>
+                            <p class="game-description">A classic block-stacking game.</p>
+                            <div class="game-stats">
+                                <span class="difficulty">Hard</span>
+                                <span class="duration">10+ min</span>
+                            </div>
+                        </div>
                     </article>
 
-                    <article class="game-card card" id="battleship-game" aria-labelledby="battleship-game-title">
-                        <header>
-                            <h3 id="battleship-game-title">
-                                <span aria-hidden="true">🚢</span> Battleship
-                            </h3>
-                            <p>The classic naval combat game.</p>
-                        </header>
-                        <a href="games/battleship.html" class="btn btn--primary">
-                            Play Battleship
-                        </a>
+                    <article class="elegant-game-card" onclick="window.location.href='games/battleship.html'" aria-labelledby="battleship-game-title">
+                        <div class="game-card-background battleship-bg"></div>
+                        <div class="game-card-content">
+                            <div class="game-icon">🚢</div>
+                            <h3 id="battleship-game-title" class="game-title">Battleship</h3>
+                            <p class="game-description">The classic naval combat game.</p>
+                            <div class="game-stats">
+                                <span class="difficulty">Medium</span>
+                                <span class="duration">10-15 min</span>
+                            </div>
+                        </div>
                     </article>
 
-                    <article class="game-card card" id="naughts-and-crosses-game"
-                        aria-labelledby="naughts-and-crosses-game-title">
-                        <header>
-                            <h3 id="naughts-and-crosses-game-title">
-                                <span aria-hidden="true">⚔️</span> Naughts and Crosses
-                            </h3>
-                            <p>The classic game of tic-tac-toe with AI opponent.</p>
-                        </header>
-                        <a href="games/naughts-and-crosses.html" class="btn btn--primary">
-                            Play Naughts and Crosses
-                        </a>
+                    <article class="elegant-game-card" onclick="window.location.href='games/naughts-and-crosses.html'" aria-labelledby="naughts-and-crosses-game-title">
+                        <div class="game-card-background noughts-bg"></div>
+                        <div class="game-card-content">
+                            <div class="game-icon">⚔️</div>
+                            <h3 id="naughts-and-crosses-game-title" class="game-title">Naughts and Crosses</h3>
+                            <p class="game-description">The classic game of tic-tac-toe with AI opponent.</p>
+                            <div class="game-stats">
+                                <span class="difficulty">Easy</span>
+                                <span class="duration">2-5 min</span>
+                            </div>
+                        </div>
                     </article>
                 </div>
             </section>

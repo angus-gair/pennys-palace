@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match | Penny's Palace</title>
+    <link rel="stylesheet" href="../style-modern.css">
+    <style>
+        .game-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <a href="../index-modern.html" class="back-btn">← Back to Games</a>
+    
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🧠 Memory Match</h1>
+            <p>Match Sydney Swans players and facts!</p>
+            <div class="game-score">Score: <span id="memory-score">0</span></div>
+        </div>
+        
+        <div class="memory-grid" id="memory-grid">
+            <!-- Memory cards will be populated by JavaScript -->
+        </div>
+        
+        <button class="btn btn--primary" onclick="startMemoryGame()" style="margin: 2rem auto; display: block;">
+            Start New Game
+        </button>
+    </div>
+    
+    <script src="../app-modern.js"></script>
+</body>
+</html>

@@ -5,6 +5,9 @@ services:
     ports:
       - "8080:80"
     restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=pennys.ajinsights.com.au
+      - VIRTUAL_PORT=80
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/"]
       interval: 30s
