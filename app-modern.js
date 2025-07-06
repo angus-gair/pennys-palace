@@ -1382,58 +1382,7 @@ function removeJournalEntry(button) {
   }, 300);
 }
 
-// Enhanced celebration modal
-function showCelebration(title, message, type = 'success') {
-  const overlay = document.getElementById('celebration-overlay');
-  const celebration = document.getElementById('celebration');
-  const celebrationTitle = document.getElementById('celebration-title');
-  const celebrationMessage = document.getElementById('celebration-message');
 
-  celebrationTitle.textContent = title;
-  celebrationMessage.innerHTML = message;
-
-  // Add type-specific styling
-  celebration.className = `celebration celebration--${type}`;
-
-  overlay.classList.remove('hidden');
-  celebration.classList.remove('hidden');
-
-  // Focus management
-  const closeButton = celebration.querySelector('button');
-  AccessibilityUtils.setFocus(closeButton, 100);
-
-  // Auto-close after 5 seconds for non-achievement celebrations
-  if (type !== 'achievement') {
-    setTimeout(() => {
-      if (!celebration.classList.contains('hidden')) {
-        closeCelebration();
-      }
-    }, 5000);
-  }
-
-  AccessibilityUtils.announce(`${title}: ${message}`);
-}
-
-function closeCelebration() {
-  const overlay = document.getElementById('celebration-overlay');
-  const celebration = document.getElementById('celebration');
-
-  overlay.classList.add('hidden');
-  celebration.classList.add('hidden');
-
-  // Return focus to the element that triggered the celebration
-  // This is temporarily disabled to prevent a potential infinite loop
-  // where closing the modal re-triggers an action that opens it.
-  /*
-  const activeSection = document.querySelector('.content-section.active');
-  if (activeSection) {
-    const focusableElement = activeSection.querySelector('button, input, [tabindex="0"]');
-    if (focusableElement) {
-      AccessibilityUtils.setFocus(focusableElement, 100);
-    }
-  }
-  */
-}
 
 // Data persistence
 function saveUserPreferences() {
