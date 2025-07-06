@@ -679,6 +679,7 @@ function handleKeyboardShortcuts(e) {
 const factsData = {
   animals: {
     title: "Amazing Animals",
+    icon: "🐾",
     facts: [
       "Octopuses have 3 hearts and blue blood! 🐙",
       "Tigers have striped skin, not just striped fur! 🐅", 
@@ -692,6 +693,7 @@ const factsData = {
   },
   space: {
     title: "Cool Space",
+    icon: "🚀",
     facts: [
       "There are more stars in the universe than grains of sand on all the Earth's beaches! ✨",
       "A day on Venus is longer than a year on Venus! 🪐",
@@ -705,6 +707,7 @@ const factsData = {
   },
   body: {
     title: "Your Body",
+    icon: "💖",
     facts: [
       "Your heart is about the same size as your fist! ❤️",
       "You have about 10,000 taste buds on your tongue! 👅",
@@ -718,6 +721,7 @@ const factsData = {
   },
   swans: {
     title: "Sydney Swans",
+    icon: "🏆",
     facts: [
       "Originally based in South Melbourne before relocating to Sydney in 1982. 🦢",
       "The club was formed on June 19, 1874, making it one of the oldest AFL clubs. 📅",
@@ -731,6 +735,7 @@ const factsData = {
   },
   jazz: {
     title: "Jazz Dance",
+    icon: "🎭",
     facts: [
       "The Charleston dance incorporated hand clapping and foot stamping from African origins. 👏",
       "Jazz dance was initially performed to ragtime music. 🎵",
