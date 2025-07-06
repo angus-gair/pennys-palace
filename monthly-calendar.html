@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Calendar - Penny's Palace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #FFF8DC 0%, #FFE4E1 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .calendar-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            background: linear-gradient(135deg, #E91E63 0%, #673AB7 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .calendar-title {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .calendar-subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .calendar-main {
+            display: flex;
+            min-height: 600px;
+        }
+
+        .activities-sidebar {
+            width: 250px;
+            background: #F8F9FA;
+            padding: 20px;
+            border-right: 2px solid #E9ECEF;
+        }
+
+        .activities-title {
+            font-size: 1.3em;
+            color: #673AB7;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .activity-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: move;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: white;
+            user-select: none;
+        }
+
+        .activity-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .activity-item.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        .activity-icon {
+            font-size: 1.2em;
+        }
+
+        .calendar-grid-container {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #E91E63 0%, #673AB7 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .month-year {
+            font-size: 1.5em;
+            color: #673AB7;
+            font-weight: bold;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            margin-bottom: 10px;
+        }
+
+        .weekday {
+            background: #673AB7;
+            color: white;
+            padding: 15px 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #DDD;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .calendar-day {
+            background: white;
+            min-height: 100px;
+            padding: 8px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            background: #F8F9FA;
+        }
+
+        .calendar-day.drag-over {
+            background: #E3F2FD !important;
+            border: 2px dashed #2196F3;
+        }
+
+        .calendar-day.today {
+            background: #FFF3E0;
+            border: 2px solid #FF9800;
+        }
+
+        .calendar-day.other-month {
+            background: #F5F5F5;
+            color: #999;
+        }
+
+        .day-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #673AB7;
+        }
+
+        .calendar-day.today .day-number {
+            color: #FF9800;
+        }
+
+        .day-events {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .event-item:hover {
+            opacity: 0.8;
+        }
+
+        .today-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #FF9800;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        .mobile-toggle {
+            display: none;
+            width: 100%;
+            background: white;
+            border: 2px solid #E91E63;
+            color: #E91E63;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .mobile-activities {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #E91E63;
+        }
+
+        .mobile-activities .activity-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px;
+            color: #E91E63;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .instructions {
+            background: #E1F5FE;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 10px;
+            color: #673AB7;
+            text-align: center;
+        }
+
+        /* Activity Colors */
+        .dance { background: #E91E63; }
+        .swans { background: #2196F3; }
+        .nanna { background: #F44336; }
+        .family { background: #4CAF50; }
+        .sports { background: #FF9800; }
+        .piano { background: #9C27B0; }
+        .birthday { background: #FFC107; color: #333; }
+        .school { background: #3F51B5; }
+        .movie { background: #757575; }
+        .sleepover { background: #7B1FA2; }
+        .art { background: #E91E87; }
+        .gaming { background: #388E3C; }
+        .library { background: #1976D2; }
+        .park { background: #2E7D32; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .calendar-main {
+                flex-direction: column;
+            }
+            
+            .activities-sidebar {
+                display: none;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .calendar-day {
+                min-height: 80px;
+                padding: 5px;
+            }
+            
+            .day-events {
+                gap: 1px;
+            }
+            
+            .event-item {
+                font-size: 0.7em;
+                padding: 2px 4px;
+            }
+            
+            .calendar-title {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index-modern.html#my-tools" class="back-link">← Back to My Tools</a>
+    
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <h1 class="calendar-title">📅 My Monthly Calendar</h1>
+            <p class="calendar-subtitle">Drag activities to plan your month!</p>
+        </div>
+
+        <button class="mobile-toggle" onclick="toggleMobileActivities()">
+            <span id="toggle-text">Show Activities</span> 🎯
+        </button>
+
+        <div class="mobile-activities" id="mobile-activities">
+            <div class="activity-grid" id="mobile-activity-grid">
+                <!-- Mobile activities will be populated here -->
+            </div>
+            <p style="text-align: center; margin-top: 15px; color: #666; font-size: 0.9em;">
+                Drag activities to calendar days
+            </p>
+        </div>
+
+        <div class="calendar-main">
+            <div class="activities-sidebar">
+                <h2 class="activities-title">🎯 Activities</h2>
+                <div class="activity-grid" id="activities-grid">
+                    <!-- Activities will be populated by JavaScript -->
+                </div>
+                <p style="text-align: center; margin-top: 20px; color: #666; font-size: 0.9em;">
+                    Drag to calendar days
+                </p>
+            </div>
+
+            <div class="calendar-grid-container">
+                <div class="calendar-controls">
+                    <button class="nav-btn" onclick="previousMonth()">← Previous</button>
+                    <div class="month-year" id="month-year"></div>
+                    <button class="nav-btn" onclick="nextMonth()">Next →</button>
+                </div>
+
+                <div class="weekdays">
+                    <div class="weekday">Sunday</div>
+                    <div class="weekday">Monday</div>
+                    <div class="weekday">Tuesday</div>
+                    <div class="weekday">Wednesday</div>
+                    <div class="weekday">Thursday</div>
+                    <div class="weekday">Friday</div>
+                    <div class="weekday">Saturday</div>
+                </div>
+
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Calendar days will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <strong>How to use:</strong><br>
+        🎯 Drag activities from the sidebar to calendar days<br>
+        🗑️ Click on events to remove them<br>
+        📱 On mobile, tap "Show Activities" to see activity options<br>
+        🗓️ Use Previous/Next to navigate months
+    </div>
+
+    <script>
+        // Activity types with icons and colors
+        const activityTypes = [
+            { id: 'dance', name: '🩰 Dance', color: 'dance' },
+            { id: 'swans', name: '🦢 Swans Game', color: 'swans' },
+            { id: 'nanna', name: '❤️ Nanna Visit', color: 'nanna' },
+            { id: 'family', name: '👨‍👩‍👧‍👦 Family Day', color: 'family' },
+            { id: 'sports', name: '🏆 Sports', color: 'sports' },
+            { id: 'piano', name: '🎹 Piano Lesson', color: 'piano' },
+            { id: 'birthday', name: '🎂 Birthday Party', color: 'birthday' },
+            { id: 'school', name: '🏫 School Event', color: 'school' },
+            { id: 'movie', name: '🎬 Movie Night', color: 'movie' },
+            { id: 'sleepover', name: '🌙 Sleepover', color: 'sleepover' },
+            { id: 'art', name: '🎨 Art Class', color: 'art' },
+            { id: 'gaming', name: '🎮 Gaming', color: 'gaming' },
+            { id: 'library', name: '📚 Library', color: 'library' },
+            { id: 'park', name: '🌲 Park Day', color: 'park' }
+        ];
+
+        let currentDate = new Date();
+        let calendarEvents = JSON.parse(localStorage.getItem('pennyCalendarEvents') || '{}');
+        let draggedActivity = null;
+
+        function initializeCalendar() {
+            populateActivities();
+            renderCalendar();
+        }
+
+        function populateActivities() {
+            const grid = document.getElementById('activities-grid');
+            const mobileGrid = document.getElementById('mobile-activity-grid');
+            
+            const activityHTML = activityTypes.map(activity => 
+                `<div class="activity-item ${activity.color}" draggable="true" data-activity="${activity.id}">
+                    <span>${activity.name}</span>
+                </div>`
+            ).join('');
+            
+            grid.innerHTML = activityHTML;
+            mobileGrid.innerHTML = activityHTML;
+
+            // Add drag event listeners
+            document.querySelectorAll('.activity-item').forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+        }
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            // Update month/year display
+            document.getElementById('month-year').textContent = 
+                currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            // Get calendar info
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            // Generate 6 weeks of calendar
+            for (let week = 0; week < 6; week++) {
+                for (let day = 0; day < 7; day++) {
+                    const currentDay = new Date(startDate);
+                    currentDay.setDate(startDate.getDate() + (week * 7) + day);
+                    
+                    const dayElement = createDayElement(currentDay, month);
+                    grid.appendChild(dayElement);
+                }
+            }
+        }
+
+        function createDayElement(date, currentMonth) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day';
+            
+            const dayKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+            const isToday = date.toDateString() === new Date().toDateString();
+            const isCurrentMonth = date.getMonth() === currentMonth;
+            
+            if (isToday) dayElement.classList.add('today');
+            if (!isCurrentMonth) dayElement.classList.add('other-month');
+            
+            dayElement.dataset.date = dayKey;
+            
+            // Add drag and drop event listeners
+            dayElement.addEventListener('dragover', handleDragOver);
+            dayElement.addEventListener('drop', handleDrop);
+            dayElement.addEventListener('dragleave', handleDragLeave);
+
+            dayElement.innerHTML = `
+                <div class="day-number">${date.getDate()}</div>
+                ${isToday ? '<div class="today-badge">Today</div>' : ''}
+                <div class="day-events" id="events-${dayKey}">
+                    ${renderDayEvents(dayKey)}
+                </div>
+            `;
+
+            return dayElement;
+        }
+
+        function renderDayEvents(dayKey) {
+            const events = calendarEvents[dayKey] || [];
+            return events.map((activityId, index) => {
+                const activity = activityTypes.find(a => a.id === activityId);
+                if (!activity) return '';
+                
+                return `<div class="event-item ${activity.color}" onclick="removeEvent('${dayKey}', ${index})">
+                    ${activity.name}
+                </div>`;
+            }).join('');
+        }
+
+        function handleDragStart(e) {
+            draggedActivity = e.target.dataset.activity;
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'copy';
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            draggedActivity = null;
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            
+            if (draggedActivity) {
+                const dayKey = e.currentTarget.dataset.date;
+                addEvent(dayKey, draggedActivity);
+            }
+        }
+
+        function addEvent(dayKey, activityId) {
+            if (!calendarEvents[dayKey]) {
+                calendarEvents[dayKey] = [];
+            }
+            
+            calendarEvents[dayKey].push(activityId);
+            saveEvents();
+            
+            // Update the day's events display
+            document.getElementById(`events-${dayKey}`).innerHTML = renderDayEvents(dayKey);
+        }
+
+        function removeEvent(dayKey, eventIndex) {
+            if (calendarEvents[dayKey]) {
+                calendarEvents[dayKey].splice(eventIndex, 1);
+                if (calendarEvents[dayKey].length === 0) {
+                    delete calendarEvents[dayKey];
+                }
+                saveEvents();
+                
+                // Update the day's events display
+                document.getElementById(`events-${dayKey}`).innerHTML = renderDayEvents(dayKey);
+            }
+        }
+
+        function saveEvents() {
+            localStorage.setItem('pennyCalendarEvents', JSON.stringify(calendarEvents));
+        }
+
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        }
+
+        function toggleMobileActivities() {
+            const mobileActivities = document.getElementById('mobile-activities');
+            const toggleText = document.getElementById('toggle-text');
+            
+            if (mobileActivities.style.display === 'block') {
+                mobileActivities.style.display = 'none';
+                toggleText.textContent = 'Show Activities';
+            } else {
+                mobileActivities.style.display = 'block';
+                toggleText.textContent = 'Hide Activities';
+            }
+        }
+
+        // Initialize calendar when page loads
+        document.addEventListener('DOMContentLoaded', initializeCalendar);
+    </script>
+</body>
+</html>

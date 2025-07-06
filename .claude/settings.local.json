@@ -6,7 +6,13 @@
       "Bash(grep:*)",
       "Bash(curl:*)",
       "Bash(node:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(rg:*)",
+      "Bash(lsof:*)",
+      "Bash(ss:*)",
+      "Bash(mkdir:*)",
+      "Bash(git clone:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }

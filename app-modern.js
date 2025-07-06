@@ -594,40 +594,10 @@ function switchSection(sectionName) {
 
 // Enhanced content population with animations
 function populateContent() {
-  populateAmazingFacts();
+  setupWheel();
   populateSwansInfo();
   populateRecipes();
   setupQuiz();
-}
-
-function populateAmazingFacts() {
-  const categories = ['animals', 'space', 'body'];
-  categories.forEach((category, categoryIndex) => {
-    const container = document.getElementById(`${category}-facts`);
-    if (container) {
-      container.innerHTML = '';
-      appData.amazing_facts[category].forEach((fact, index) => {
-        const factCard = document.createElement('div');
-        factCard.className = 'fact-card';
-        factCard.setAttribute('role', 'listitem');
-        factCard.innerHTML = `<p>${fact}</p>`;
-
-        // Add click interaction
-        factCard.addEventListener('click', () => {
-          AnimationUtils.sparkle(factCard);
-          AnimationUtils.bounce(factCard);
-          ToastManager.show('Amazing fact! 🤩', 'info', 2000);
-        });
-
-        container.appendChild(factCard);
-
-        // Stagger animations
-        setTimeout(() => {
-          AnimationUtils.fadeIn(factCard);
-        }, (categoryIndex * 100) + (index * 50));
-      });
-    }
-  });
 }
 
 function populateSwansInfo() {
@@ -743,10 +713,10 @@ function populateRecipes() {
 
 // Enhanced event listeners
 function setupEventListeners() {
-  // Random fact button with enhanced feedback
-  const randomFactBtn = document.querySelector('.random-fact-btn');
-  if (randomFactBtn) {
-    randomFactBtn.addEventListener('click', showRandomFact);
+  // Spin wheel button
+  const spinBtn = document.getElementById('spin-btn');
+  if (spinBtn) {
+    spinBtn.addEventListener('click', spinWheel);
   }
 
   // Quiz start button
@@ -807,16 +777,13 @@ function handleKeyboardShortcuts(e) {
         switchSection('amazing-facts');
         break;
       case '2':
-        switchSection('go-swans');
-        break;
-      case '3':
         switchSection('cooking-fun');
         break;
-      case '4':
+      case '3':
         switchSection('play-games');
         break;
-      case '5':
-        switchSection('my-tools');
+      case '4':
+        switchSection('monthly-calendar');
         break;
       case 't':
         toggleTheme();
@@ -825,22 +792,127 @@ function handleKeyboardShortcuts(e) {
   }
 }
 
-// Enhanced random fact with animations
-function showRandomFact() {
-  const allFacts = [
-    ...appData.amazing_facts.animals,
-    ...appData.amazing_facts.space,
-    ...appData.amazing_facts.body
-  ];
+// Spinning Wheel Logic
+const wheelOptions = [
+  { label: "Animals", color: "#FFC107" },
+  { label: "Space", color: "#9C27B0" },
+  { label: "Human Body", color: "#4CAF50" },
+];
+let startAngle = 0;
+let arc = Math.PI / (wheelOptions.length / 2);
+let spinTimeout = null;
+let spinAngleStart = 10;
+let spinTime = 0;
+let spinTimeTotal = 0;
+let ctx;
 
-  const randomFact = allFacts[Math.floor(Math.random() * allFacts.length)];
-  const button = document.querySelector('.random-fact-btn');
+function setupWheel() {
+  const canvas = document.getElementById('wheel-canvas');
+  if (canvas && canvas.getContext) {
+    ctx = canvas.getContext('2d');
+    drawWheel();
+  }
+}
 
-  AnimationUtils.sparkle(button);
-  AnimationUtils.bounce(button);
+function drawWheel() {
+  const canvas = document.getElementById('wheel-canvas');
+  const outsideRadius = 200;
+  const textRadius = 160;
+  const insideRadius = 125;
 
-  showCelebration("🎲 Random Fact!", randomFact, 'fact');
-  AccessibilityUtils.announce(`Random fact: ${randomFact}`);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 2;
+
+  ctx.font = 'bold 24px ' + getComputedStyle(document.body).fontFamily;
+
+  for (let i = 0; i < wheelOptions.length; i++) {
+    const angle = startAngle + i * arc;
+    ctx.fillStyle = wheelOptions[i].color;
+
+    ctx.beginPath();
+    ctx.arc(250, 250, outsideRadius, angle, angle + arc, false);
+    ctx.arc(250, 250, insideRadius, angle + arc, angle, true);
+    ctx.stroke();
+    ctx.fill();
+
+    ctx.save();
+    ctx.shadowOffsetX = -1;
+    ctx.shadowOffsetY = -1;
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = "rgb(220,220,220)";
+    ctx.fillStyle = "black";
+    ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius, 250 + Math.sin(angle + arc / 2) * textRadius);
+    ctx.rotate(angle + arc / 2 + Math.PI / 2);
+    const text = wheelOptions[i].label;
+    ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+    ctx.restore();
+  }
+}
+
+function spinWheel() {
+  spinAngleStart = Math.random() * 10 + 10;
+  spinTime = 0;
+  spinTimeTotal = Math.random() * 3 + 4 * 1000;
+  rotateWheel();
+}
+
+function rotateWheel() {
+  spinTime += 30;
+  if (spinTime >= spinTimeTotal) {
+    stopRotateWheel();
+    return;
+  }
+  const spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
+  startAngle += (spinAngle * Math.PI / 180);
+  drawWheel();
+  spinTimeout = setTimeout(rotateWheel, 30);
+}
+
+function stopRotateWheel() {
+  clearTimeout(spinTimeout);
+  const degrees = startAngle * 180 / Math.PI + 90;
+  const arcd = arc * 180 / Math.PI;
+  const index = Math.floor((360 - degrees % 360) / arcd);
+  ctx.save();
+  const text = wheelOptions[index].label;
+
+  const factDisplay = document.getElementById('fact-display');
+  const factCategoryTitle = document.getElementById('fact-category-title');
+  const factText = document.getElementById('fact-text');
+
+  let categoryKey;
+  let factsArray;
+
+  switch (text) {
+    case "Animals":
+      categoryKey = 'animals';
+      break;
+    case "Space":
+      categoryKey = 'space';
+      break;
+    case "Human Body":
+      categoryKey = 'body';
+      break;
+  }
+
+  factsArray = appData.amazing_facts[categoryKey];
+  const randomFact = factsArray[Math.floor(Math.random() * factsArray.length)];
+
+  factCategoryTitle.textContent = text;
+  factText.textContent = randomFact;
+  factDisplay.style.display = 'block';
+  AnimationUtils.fadeIn(factDisplay);
+  AccessibilityUtils.announce(`The wheel landed on ${text}. Fact: ${randomFact}`);
+
+  ctx.restore();
+}
+
+function easeOut(t, b, c, d) {
+  const ts = (t /= d) * t;
+  const tc = ts * t;
+  return b + c * (tc + -3 * ts + 3 * t);
 }
 
 // Enhanced Swans quiz with better UX
