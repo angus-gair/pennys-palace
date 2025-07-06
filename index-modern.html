@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Penny's Personal Place - A fun, educational platform for kids featuring Sydney Swans content, cooking recipes, games, and productivity tools">
-    <meta name="keywords" content="kids, education, Sydney Swans, AFL, cooking, games, learning">
+        content="Penny's Personal Place - A fun, educational platform for kids featuring Sydney Swans content, games, and productivity tools">
+    <meta name="keywords" content="kids, education, Sydney Swans, AFL, games, learning">
     <meta name="author" content="Penny's Palace">
 
     <!-- Preconnect for performance -->
@@ -38,11 +38,6 @@
                     <p class="header-subtitle">Your magical space for fun, learning, and creativity!</p>
                 </div>
 
-                <!-- Theme Toggle Button -->
-                <button class="theme-toggle" aria-label="Toggle dark mode" id="theme-toggle">
-                    <span class="sun-icon" aria-hidden="true">☀️</span>
-                    <span class="moon-icon" aria-hidden="true">🌙</span>
-                </button>
             </div>
         </div>
     </header>
@@ -54,11 +49,6 @@
                 <li role="presentation">
                     <button class="nav-btn active" data-section="amazing-facts" role="tab" aria-selected="true">
                         <span aria-hidden="true">🤩</span> Amazing Facts
-                    </button>
-                </li>
-                <li role="presentation">
-                    <button class="nav-btn" data-section="cooking-fun" role="tab" aria-selected="false">
-                        <span aria-hidden="true">🍪</span> Cooking Fun
                     </button>
                 </li>
                 <li role="presentation">
@@ -80,108 +70,107 @@
         <div class="container">
             <!-- Amazing Facts Section -->
             <section id="amazing-facts" class="content-section active" aria-labelledby="facts-title">
-                <header>
-                    <h2 id="facts-title" class="section-title">
-                        <span aria-hidden="true">🤩</span> Amazing Facts
-                    </h2>
-                </header>
+                <div id="facts-category-view" class="facts-main-view">
+                    <header class="facts-header">
+                        <h1 class="facts-main-title">
+                            <span class="sparkle-icon" aria-hidden="true">✨</span>
+                            Penny's Amazing Facts
+                        </h1>
+                        <p class="facts-subtitle">Choose a topic to start exploring!</p>
+                    </header>
 
-                <div class="facts-container">
-                    <div class="wheel-wrapper">
-                        <div class="wheel-pointer"></div>
-                        <canvas id="wheel-canvas" width="500" height="500"></canvas>
+                    <div class="facts-categories-grid" role="region" aria-label="Fact categories">
+                        <article class="category-card" data-category="animals" tabindex="0" role="button" aria-label="Amazing Animals - Discover the wild world of animals">
+                            <div class="category-image">
+                                <img src="animal-category-bg.png" alt="Amazing Animals background" />
+                                <div class="category-overlay"></div>
+                            </div>
+                            <div class="category-content">
+                                <div class="category-icon" aria-hidden="true">🐾</div>
+                                <h3 class="category-title">Amazing Animals</h3>
+                                <p class="category-description">Discover the wild world of animals!</p>
+                            </div>
+                        </article>
+
+                        <article class="category-card" data-category="space" tabindex="0" role="button" aria-label="Cool Space - Journey through the cosmos">
+                            <div class="category-image">
+                                <img src="space-category-bg.png" alt="Cool Space background" />
+                                <div class="category-overlay"></div>
+                            </div>
+                            <div class="category-content">
+                                <div class="category-icon" aria-hidden="true">🚀</div>
+                                <h3 class="category-title">Cool Space</h3>
+                                <p class="category-description">Journey through the cosmos!</p>
+                            </div>
+                        </article>
+
+                        <article class="category-card" data-category="body" tabindex="0" role="button" aria-label="Your Body - The wonders inside you">
+                            <div class="category-image">
+                                <img src="body-category-bg.png" alt="Your Body background" />
+                                <div class="category-overlay"></div>
+                            </div>
+                            <div class="category-content">
+                                <div class="category-icon" aria-hidden="true">💖</div>
+                                <h3 class="category-title">Your Body</h3>
+                                <p class="category-description">The wonders inside you!</p>
+                            </div>
+                        </article>
+
+                        <article class="category-card" data-category="swans" tabindex="0" role="button" aria-label="Sydney Swans - Go Bloods! All about Penny's favourite team">
+                            <div class="category-image">
+                                <img src="swans-category-bg.png" alt="Sydney Swans background" />
+                                <div class="category-overlay"></div>
+                            </div>
+                            <div class="category-content">
+                                <div class="category-icon" aria-hidden="true">🏆</div>
+                                <h3 class="category-title">Sydney Swans</h3>
+                                <p class="category-description">Go Bloods! All about Penny's favourite team.</p>
+                            </div>
+                        </article>
+
+                        <article class="category-card" data-category="jazz" tabindex="0" role="button" aria-label="Jazz Dance - Learn the moves and history of jazz">
+                            <div class="category-image">
+                                <img src="jazz-category-bg.png" alt="Jazz Dance background" />
+                                <div class="category-overlay"></div>
+                            </div>
+                            <div class="category-content">
+                                <div class="category-icon" aria-hidden="true">🎭</div>
+                                <h3 class="category-title">Jazz Dance</h3>
+                                <p class="category-description">Learn the moves and history of jazz!</p>
+                            </div>
+                        </article>
                     </div>
-                    <button id="spin-btn" class="btn btn--primary random-fact-btn">
-                        <span aria-hidden="true">🎡</span> Spin the Wheel!
-                    </button>
-                    <div id="fact-display" class="fact-display-card card" style="display: none;" aria-live="polite">
-                        <h3 id="fact-category-title"></h3>
-                        <p id="fact-text"></p>
+                </div>
+
+                <div id="facts-detail-view" class="facts-detail-view hidden">
+                    <header class="facts-detail-header">
+                        <button class="back-btn" id="facts-back-btn" aria-label="Back to categories">
+                            <span aria-hidden="true">←</span> Back
+                        </button>
+                        <h2 id="current-category-title" class="detail-category-title"></h2>
+                    </header>
+
+                    <div class="facts-display-area">
+                        <div class="fact-viewer">
+                            <div class="fact-content" id="current-fact-content">
+                                <!-- Current fact will be displayed here -->
+                            </div>
+                            <div class="fact-controls">
+                                <button class="btn btn--secondary" id="prev-fact-btn" aria-label="Previous fact">
+                                    <span aria-hidden="true">←</span> Previous
+                                </button>
+                                <div class="fact-counter">
+                                    <span id="current-fact-number">1</span> of <span id="total-facts">5</span>
+                                </div>
+                                <button class="btn btn--secondary" id="next-fact-btn" aria-label="Next fact">
+                                    Next <span aria-hidden="true">→</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-
-            <!-- Cooking Fun Section -->
-            <section id="cooking-fun" class="content-section" aria-labelledby="cooking-title">
-                <header>
-                    <h2 id="cooking-title" class="section-title">
-                        <span aria-hidden="true">🍪</span> Cooking Fun
-                    </h2>
-                </header>
-
-                <div class="recipes-container" role="region" aria-label="Recipe collection">
-                    <article class="recipe-card card" id="recipe-1" aria-labelledby="muffin-title">
-                        <header>
-                            <h3 id="muffin-title">
-                                <span aria-hidden="true">🧁</span> Super Simple Banana Muffins
-                            </h3>
-                            <div class="recipe-meta">
-                                <span class="difficulty">Easy <span aria-hidden="true">🌟</span></span>
-                                <time class="time" datetime="PT30M">30 minutes</time>
-                            </div>
-                        </header>
-
-                        <div class="recipe-content">
-                            <section class="ingredients" aria-labelledby="muffin-ingredients-title">
-                                <h4 id="muffin-ingredients-title">Ingredients:</h4>
-                                <ul id="muffin-ingredients" role="list">
-                                    <!-- Ingredients will be populated by JavaScript -->
-                                </ul>
-                            </section>
-
-                            <section class="instructions" aria-labelledby="muffin-instructions-title">
-                                <h4 id="muffin-instructions-title">Instructions:</h4>
-                                <ol id="muffin-instructions" role="list">
-                                    <!-- Instructions will be populated by JavaScript -->
-                                </ol>
-                            </section>
-                        </div>
-
-                        <footer>
-                            <button class="btn btn--secondary print-recipe-btn" onclick="printRecipe('recipe-1')"
-                                aria-label="Print banana muffin recipe">
-                                <span aria-hidden="true">🖨️</span> Print Recipe
-                            </button>
-                        </footer>
-                    </article>
-
-                    <article class="recipe-card card" id="recipe-2" aria-labelledby="cookie-title">
-                        <header>
-                            <h3 id="cookie-title">
-                                <span aria-hidden="true">🍪</span> No-Bake Cookie Balls
-                            </h3>
-                            <div class="recipe-meta">
-                                <span class="difficulty">Super Easy <span aria-hidden="true">🌟</span></span>
-                                <time class="time" datetime="PT15M">15 minutes + chilling</time>
-                            </div>
-                        </header>
-
-                        <div class="recipe-content">
-                            <section class="ingredients" aria-labelledby="cookie-ingredients-title">
-                                <h4 id="cookie-ingredients-title">Ingredients:</h4>
-                                <ul id="cookie-ingredients" role="list">
-                                    <!-- Ingredients will be populated by JavaScript -->
-                                </ul>
-                            </section>
-
-                            <section class="instructions" aria-labelledby="cookie-instructions-title">
-                                <h4 id="cookie-instructions-title">Instructions:</h4>
-                                <ol id="cookie-instructions" role="list">
-                                    <!-- Instructions will be populated by JavaScript -->
-                                </ol>
-                            </section>
-                        </div>
-
-                        <footer>
-                            <button class="btn btn--secondary print-recipe-btn" onclick="printRecipe('recipe-2')"
-                                aria-label="Print cookie balls recipe">
-                                <span aria-hidden="true">🖨️</span> Print Recipe
-                            </button>
-                        </footer>
-                    </article>
-                </div>
-            </section>
 
             <!-- Play Games Section -->
             <section id="play-games" class="content-section" aria-labelledby="games-title">
@@ -383,13 +372,6 @@
         <!-- Toast messages will be inserted here -->
     </div>
 
-    <!-- Celebration Modal Structure -->
-    <div class="celebration-overlay hidden" id="celebration-overlay"></div>
-    <div class="celebration hidden" id="celebration" role="dialog" aria-labelledby="celebration-title">
-        <h3 id="celebration-title">🎉 Awesome!</h3>
-        <p id="celebration-message">Great job!</p>
-        <button class="btn btn--primary" onclick="closeCelebration()">Continue</button>
-    </div>
 
     <!-- Scripts -->
     <script src="app-modern.js"></script>

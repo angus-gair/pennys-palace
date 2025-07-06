@@ -67,53 +67,6 @@ const appData = {
       "The SCG has hosted cricket since 1848! 🏏"
     ]
   },
-  recipes: [
-    {
-      name: "Super Simple Banana Muffins",
-      difficulty: "Easy 🌟",
-      time: "30 minutes",
-      ingredients: [
-        "2 ripe bananas (mashed) 🍌",
-        "1 cup self-raising flour",
-        "1/2 cup milk 🥛",
-        "1/4 cup melted butter",
-        "1 egg 🥚",
-        "2 tablespoons sugar",
-        "Optional: chocolate chips! 🍫"
-      ],
-      instructions: [
-        "Preheat oven to 180°C 🔥",
-        "Mash bananas in a big bowl 🥣",
-        "Mix in egg, milk, and melted butter",
-        "Add flour and sugar, stir gently",
-        "Add chocolate chips if you want!",
-        "Spoon into muffin cases",
-        "Bake for 18-20 minutes ⏰",
-        "Let cool and enjoy! 🧁"
-      ]
-    },
-    {
-      name: "No-Bake Cookie Balls",
-      difficulty: "Super Easy 🌟",
-      time: "15 minutes + chilling",
-      ingredients: [
-        "2 cups crushed biscuits 🍪",
-        "1/2 cup cocoa powder 🍫",
-        "1 can condensed milk 🥛",
-        "1 cup desiccated coconut 🥥",
-        "Extra coconut for rolling"
-      ],
-      instructions: [
-        "Crush biscuits into fine crumbs",
-        "Mix biscuits, cocoa, and coconut",
-        "Add condensed milk and mix well",
-        "Roll mixture into balls ⚽",
-        "Roll balls in extra coconut",
-        "Put in fridge for 2 hours ❄️",
-        "Enjoy your treats! 🍪"
-      ]
-    }
-  ]
 };
 
 // Enhanced game data
@@ -124,9 +77,6 @@ const gameData = {
     { word: "FOOTBALL", scrambled: "LLABTOOF", hint: "Aussie Rules sport" },
     { word: "SYDNEY", scrambled: "DNEYST", hint: "Harbor city" },
     { word: "SWANS", scrambled: "SNAWS", hint: "Penny's favorite team" },
-    { word: "COOKING", scrambled: "GNIKOCO", hint: "Making delicious food" },
-    { word: "RECIPE", scrambled: "PICEOR", hint: "Instructions for cooking" },
-    { word: "MUFFIN", scrambled: "NIFFUM", hint: "Fluffy baked treat" },
     { word: "DREAMS", scrambled: "SMAERD", hint: "What you have when sleeping" },
     { word: "FRIENDSHIP", scrambled: "PIHSDNEIRF", hint: "Special bonds with others" }
   ],
@@ -594,7 +544,7 @@ function switchSection(sectionName) {
 
 // Enhanced content population with animations
 function populateContent() {
-  setupWheel();
+  setupAmazingFacts();
   populateSwansInfo();
   populateRecipes();
   setupQuiz();
@@ -648,76 +598,12 @@ function populateSwansInfo() {
 }
 
 function populateRecipes() {
-  // Populate muffin recipe
-  const muffinIngredients = document.getElementById('muffin-ingredients');
-  const muffinInstructions = document.getElementById('muffin-instructions');
-
-  if (muffinIngredients && muffinInstructions) {
-    muffinIngredients.innerHTML = '';
-    muffinInstructions.innerHTML = '';
-
-    appData.recipes[0].ingredients.forEach((ingredient, index) => {
-      const li = document.createElement('li');
-      li.textContent = ingredient;
-      li.setAttribute('role', 'listitem');
-      muffinIngredients.appendChild(li);
-
-      setTimeout(() => {
-        AnimationUtils.slideIn(li, 'left');
-      }, index * 50);
-    });
-
-    appData.recipes[0].instructions.forEach((instruction, index) => {
-      const li = document.createElement('li');
-      li.textContent = instruction;
-      li.setAttribute('role', 'listitem');
-      muffinInstructions.appendChild(li);
-
-      setTimeout(() => {
-        AnimationUtils.slideIn(li, 'left');
-      }, (index * 50) + 500);
-    });
-  }
-
-  // Populate cookie recipe
-  const cookieIngredients = document.getElementById('cookie-ingredients');
-  const cookieInstructions = document.getElementById('cookie-instructions');
-
-  if (cookieIngredients && cookieInstructions) {
-    cookieIngredients.innerHTML = '';
-    cookieInstructions.innerHTML = '';
-
-    appData.recipes[1].ingredients.forEach((ingredient, index) => {
-      const li = document.createElement('li');
-      li.textContent = ingredient;
-      li.setAttribute('role', 'listitem');
-      cookieIngredients.appendChild(li);
-
-      setTimeout(() => {
-        AnimationUtils.slideIn(li, 'left');
-      }, index * 50);
-    });
-
-    appData.recipes[1].instructions.forEach((instruction, index) => {
-      const li = document.createElement('li');
-      li.textContent = instruction;
-      li.setAttribute('role', 'listitem');
-      cookieInstructions.appendChild(li);
-
-      setTimeout(() => {
-        AnimationUtils.slideIn(li, 'left');
-      }, (index * 50) + 500);
-    });
-  }
 }
 
 // Enhanced event listeners
 function setupEventListeners() {
-  // Spin wheel button
-  const spinBtn = document.getElementById('spin-btn');
-  if (spinBtn) {
-    spinBtn.addEventListener('click', spinWheel);
-  }
+  // Amazing Facts navigation
+  setupAmazingFactsListeners();
 
   // Quiz start button
   const startQuizBtn = document.getElementById('start-quiz-btn');
@@ -777,12 +663,9 @@ function handleKeyboardShortcuts(e) {
         switchSection('amazing-facts');
         break;
       case '2':
-        switchSection('cooking-fun');
-        break;
-      case '3':
         switchSection('play-games');
         break;
-      case '4':
+      case '3':
         switchSection('monthly-calendar');
         break;
       case 't':
@@ -792,127 +675,192 @@ function handleKeyboardShortcuts(e) {
   }
 }
 
-// Spinning Wheel Logic
-const wheelOptions = [
-  { label: "Animals", color: "#FFC107" },
-  { label: "Space", color: "#9C27B0" },
-  { label: "Human Body", color: "#4CAF50" },
-];
-let startAngle = 0;
-let arc = Math.PI / (wheelOptions.length / 2);
-let spinTimeout = null;
-let spinAngleStart = 10;
-let spinTime = 0;
-let spinTimeTotal = 0;
-let ctx;
+// Amazing Facts Data and Logic
+const factsData = {
+  animals: {
+    title: "Amazing Animals",
+    facts: [
+      "Octopuses have 3 hearts and blue blood! 🐙",
+      "Tigers have striped skin, not just striped fur! 🐅", 
+      "Elephants are the only mammals that can't jump! 🐘",
+      "A shrimp's heart is in its head! 🦐",
+      "Giraffes only sleep for about 30 minutes a day! 🦒",
+      "Dolphins have names for each other! 🐬",
+      "Honeybees dance to give directions! 🐝",
+      "Penguins propose with pebbles! 🐧"
+    ]
+  },
+  space: {
+    title: "Cool Space",
+    facts: [
+      "There are more stars in the universe than grains of sand on all the Earth's beaches! ✨",
+      "A day on Venus is longer than a year on Venus! 🪐",
+      "You could fit 1 million Earths inside the Sun! ☀️",
+      "In space, no one can hear you scream because there is no air to carry sound! 🌌",
+      "Astronauts can grow up to 2 inches taller in space! 👨‍🚀",
+      "Saturn's moon Titan has lakes of liquid methane! 🌙",
+      "A single teaspoon of neutron star would weigh 6 billion tons! ⭐",
+      "Jupiter's Great Red Spot is a storm bigger than Earth! 🌪️"
+    ]
+  },
+  body: {
+    title: "Your Body",
+    facts: [
+      "Your heart is about the same size as your fist! ❤️",
+      "You have about 10,000 taste buds on your tongue! 👅",
+      "Your brain uses 20% of your body's oxygen and calories! 🧠",
+      "You blink about 20 times per minute, that's over 10 million times a year! 👁️",
+      "Your bones are about 4 times stronger than concrete! 🦴",
+      "You produce about 1.5 liters of saliva every day! 💧",
+      "Your nose can remember 50,000 different scents! 👃",
+      "You lose about 30,000 dead skin cells every minute! 🔬"
+    ]
+  },
+  swans: {
+    title: "Sydney Swans",
+    facts: [
+      "Originally based in South Melbourne before relocating to Sydney in 1982. 🦢",
+      "The club was formed on June 19, 1874, making it one of the oldest AFL clubs. 📅",
+      "Their 2005 Grand Final win is considered one of the greatest of all time. 🏆",
+      "The SCG is nicknamed 'Swanland' or 'The Spiritual Home of the Swans'. 🏟️",
+      "Bob Skilton won three Brownlow Medals, a record for the club. 🏅",
+      "Tony Lockett's post-siren goal in 1996 sent the Swans to the Grand Final. ⚽",
+      "The club's colors are red and white. ❤️",
+      "Adam Goodes is the only Swan to win the Brownlow Medal twice since the move to Sydney. 🌟"
+    ]
+  },
+  jazz: {
+    title: "Jazz Dance",
+    facts: [
+      "The Charleston dance incorporated hand clapping and foot stamping from African origins. 👏",
+      "Jazz dance was initially performed to ragtime music. 🎵",
+      "Bill 'Bojangles' Robinson influenced jazz dance through his clean tap dancing style. 👞",
+      "The term 'jazz' originally referred to any dance performed to jazz music. 🎭",
+      "Jazz dance helped break down racial barriers in entertainment. 🤝",
+      "Many Broadway shows and Hollywood movies popularized jazz dance styles. 🎬",
+      "Jazz dance emphasizes the dancer's personal interpretation of the music. 💃"
+    ]
+  }
+};
 
-function setupWheel() {
-  const canvas = document.getElementById('wheel-canvas');
-  if (canvas && canvas.getContext) {
-    ctx = canvas.getContext('2d');
-    drawWheel();
+let currentCategory = null;
+let currentFactIndex = 0;
+
+function setupAmazingFacts() {
+  // This function initializes the Amazing Facts section
+  AccessibilityUtils.announce('Amazing Facts section loaded with 5 categories to explore');
+}
+
+function setupAmazingFactsListeners() {
+  // Category card click listeners
+  document.querySelectorAll('.category-card').forEach(card => {
+    card.addEventListener('click', handleCategoryClick);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleCategoryClick.call(card);
+      }
+    });
+  });
+
+  // Back button listener
+  const backBtn = document.getElementById('facts-back-btn');
+  if (backBtn) {
+    backBtn.addEventListener('click', showCategoryView);
+  }
+
+  // Navigation buttons
+  const prevBtn = document.getElementById('prev-fact-btn');
+  const nextBtn = document.getElementById('next-fact-btn');
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('click', showPreviousFact);
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', showNextFact);
   }
 }
 
-function drawWheel() {
-  const canvas = document.getElementById('wheel-canvas');
-  const outsideRadius = 200;
-  const textRadius = 160;
-  const insideRadius = 125;
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 2;
-
-  ctx.font = 'bold 24px ' + getComputedStyle(document.body).fontFamily;
-
-  for (let i = 0; i < wheelOptions.length; i++) {
-    const angle = startAngle + i * arc;
-    ctx.fillStyle = wheelOptions[i].color;
-
-    ctx.beginPath();
-    ctx.arc(250, 250, outsideRadius, angle, angle + arc, false);
-    ctx.arc(250, 250, insideRadius, angle + arc, angle, true);
-    ctx.stroke();
-    ctx.fill();
-
-    ctx.save();
-    ctx.shadowOffsetX = -1;
-    ctx.shadowOffsetY = -1;
-    ctx.shadowBlur = 0;
-    ctx.shadowColor = "rgb(220,220,220)";
-    ctx.fillStyle = "black";
-    ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius, 250 + Math.sin(angle + arc / 2) * textRadius);
-    ctx.rotate(angle + arc / 2 + Math.PI / 2);
-    const text = wheelOptions[i].label;
-    ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
-    ctx.restore();
+function handleCategoryClick() {
+  const category = this.dataset.category;
+  if (category && factsData[category]) {
+    currentCategory = category;
+    currentFactIndex = 0;
+    showFactsView(category);
+    AnimationUtils.bounce(this);
   }
 }
 
-function spinWheel() {
-  spinAngleStart = Math.random() * 10 + 10;
-  spinTime = 0;
-  spinTimeTotal = Math.random() * 3 + 4 * 1000;
-  rotateWheel();
+function showCategoryView() {
+  document.getElementById('facts-category-view').style.display = 'block';
+  document.getElementById('facts-detail-view').classList.add('hidden');
+  currentCategory = null;
+  AccessibilityUtils.announce('Returned to category selection');
 }
 
-function rotateWheel() {
-  spinTime += 30;
-  if (spinTime >= spinTimeTotal) {
-    stopRotateWheel();
-    return;
+function showFactsView(category) {
+  const categoryData = factsData[category];
+  
+  // Hide category view and show detail view
+  document.getElementById('facts-category-view').style.display = 'none';
+  document.getElementById('facts-detail-view').classList.remove('hidden');
+  
+  // Update title
+  document.getElementById('current-category-title').textContent = categoryData.title;
+  
+  // Update fact counter
+  document.getElementById('total-facts').textContent = categoryData.facts.length;
+  
+  // Show first fact
+  displayCurrentFact();
+  
+  AccessibilityUtils.announce(`Viewing ${categoryData.title} facts. Use Previous and Next buttons to navigate.`);
+}
+
+function displayCurrentFact() {
+  if (!currentCategory) return;
+  
+  const categoryData = factsData[currentCategory];
+  const fact = categoryData.facts[currentFactIndex];
+  
+  document.getElementById('current-fact-content').textContent = fact;
+  document.getElementById('current-fact-number').textContent = currentFactIndex + 1;
+  
+  // Update button states
+  const prevBtn = document.getElementById('prev-fact-btn');
+  const nextBtn = document.getElementById('next-fact-btn');
+  
+  if (prevBtn) {
+    prevBtn.disabled = currentFactIndex === 0;
   }
-  const spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
-  startAngle += (spinAngle * Math.PI / 180);
-  drawWheel();
-  spinTimeout = setTimeout(rotateWheel, 30);
-}
-
-function stopRotateWheel() {
-  clearTimeout(spinTimeout);
-  const degrees = startAngle * 180 / Math.PI + 90;
-  const arcd = arc * 180 / Math.PI;
-  const index = Math.floor((360 - degrees % 360) / arcd);
-  ctx.save();
-  const text = wheelOptions[index].label;
-
-  const factDisplay = document.getElementById('fact-display');
-  const factCategoryTitle = document.getElementById('fact-category-title');
-  const factText = document.getElementById('fact-text');
-
-  let categoryKey;
-  let factsArray;
-
-  switch (text) {
-    case "Animals":
-      categoryKey = 'animals';
-      break;
-    case "Space":
-      categoryKey = 'space';
-      break;
-    case "Human Body":
-      categoryKey = 'body';
-      break;
+  
+  if (nextBtn) {
+    nextBtn.disabled = currentFactIndex === categoryData.facts.length - 1;
   }
-
-  factsArray = appData.amazing_facts[categoryKey];
-  const randomFact = factsArray[Math.floor(Math.random() * factsArray.length)];
-
-  factCategoryTitle.textContent = text;
-  factText.textContent = randomFact;
-  factDisplay.style.display = 'block';
-  AnimationUtils.fadeIn(factDisplay);
-  AccessibilityUtils.announce(`The wheel landed on ${text}. Fact: ${randomFact}`);
-
-  ctx.restore();
+  
+  // Animate fact display
+  const factContent = document.getElementById('current-fact-content');
+  AnimationUtils.fadeIn(factContent);
 }
 
-function easeOut(t, b, c, d) {
-  const ts = (t /= d) * t;
-  const tc = ts * t;
-  return b + c * (tc + -3 * ts + 3 * t);
+function showPreviousFact() {
+  if (currentCategory && currentFactIndex > 0) {
+    currentFactIndex--;
+    displayCurrentFact();
+    AccessibilityUtils.announce('Previous fact');
+  }
+}
+
+function showNextFact() {
+  if (currentCategory) {
+    const maxIndex = factsData[currentCategory].facts.length - 1;
+    if (currentFactIndex < maxIndex) {
+      currentFactIndex++;
+      displayCurrentFact();
+      AccessibilityUtils.announce('Next fact');
+    }
+  }
 }
 
 // Enhanced Swans quiz with better UX
@@ -1487,81 +1435,6 @@ function closeCelebration() {
   */
 }
 
-// Print recipe with enhanced formatting
-function printRecipe(recipeId) {
-  const recipe = document.getElementById(recipeId);
-  const printWindow = window.open('', '_blank');
-
-  printWindow.document.write(`
-    <html>
-      <head>
-        <title>Recipe - Penny's Personal Place</title>
-        <style>
-          body { 
-            font-family: 'Georgia', serif; 
-            margin: 40px; 
-            line-height: 1.6;
-            color: #333;
-          }
-          h3 { 
-            color: #E91E63; 
-            border-bottom: 2px solid #E91E63;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-          }
-          .recipe-meta { 
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 20px;
-          }
-          .difficulty, .time { 
-            background: #FFF8DC; 
-            padding: 8px 15px; 
-            border-radius: 20px;
-            font-weight: bold;
-          }
-          ul, ol { 
-            margin: 15px 0; 
-            padding-left: 30px;
-          }
-          li { 
-            margin-bottom: 8px; 
-            line-height: 1.8;
-          }
-          h4 {
-            color: #673AB7;
-            font-size: 18px;
-            margin-top: 25px;
-            margin-bottom: 15px;
-          }
-          .footer {
-            margin-top: 40px;
-            text-align: center;
-            color: #666;
-            font-style: italic;
-          }
-        </style>
-      </head>
-      <body>
-        ${recipe.innerHTML}
-        <div class="footer">
-          <p>Recipe from Penny's Personal Place 🌟</p>
-          <p>Happy cooking! 👩‍🍳</p>
-        </div>
-      </body>
-    </html>
-  `);
-
-  printWindow.document.close();
-  printWindow.focus();
-  printWindow.print();
-
-  ToastManager.show('Recipe ready to print! 🖨️', 'info');
-}
-
 // Data persistence
 function saveUserPreferences() {
   localStorage.setItem('pennyPreferences', JSON.stringify(appState.preferences));
@@ -1686,14 +1559,10 @@ function setupQuiz() {
 // Export for global access (if needed)
 window.PennysPalace = {
   switchSection,
-  showRandomFact,
   startMemoryGame,
   startWordScramble,
   startFactsQuiz,
   addPlannerItem,
   addGoal,
-  saveJournalEntry,
-  printRecipe,
-  showCelebration,
-  closeCelebration
+  saveJournalEntry
 };

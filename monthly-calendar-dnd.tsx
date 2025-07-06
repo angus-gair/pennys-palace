@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { 
-  Music, 
-  Bird, 
-  Heart, 
-  Users, 
-  Trophy, 
-  Piano, 
-  Cake, 
-  School, 
-  Film, 
-  Moon, 
-  Palette, 
-  Gamepad2, 
-  BookOpen, 
-  TreePine,
+import {
+  Bird,
+  BookOpen,
+  Cake,
+  Film,
+  Gamepad2,
+  Heart,
   Menu,
+  Moon,
+  Music,
+  Palette,
+  Piano,
+  School,
+  TreePine,
+  Trophy,
+  Users,
   X
 } from 'lucide-react';
+import { useState } from 'react';
 
 // Event types with icons and colors
 const eventTypes = [
@@ -62,9 +62,8 @@ const DraggableEvent = ({ event, compact = false }) => {
         draggable
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
-        className={`${event.color} text-white p-2 rounded cursor-move transition-all inline-flex items-center gap-1 ${
-          isDragging ? 'opacity-50 scale-95' : 'hover:scale-105'
-        }`}
+        className={`${event.color} text-white p-2 rounded cursor-move transition-all inline-flex items-center gap-1 ${isDragging ? 'opacity-50 scale-95' : 'hover:scale-105'
+          }`}
       >
         <Icon className="w-3 h-3" />
         <span className="text-xs">{event.name}</span>
@@ -77,9 +76,8 @@ const DraggableEvent = ({ event, compact = false }) => {
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
-      className={`${event.color} text-white p-2 rounded cursor-move transition-all ${
-        isDragging ? 'opacity-50 scale-95' : 'hover:scale-105'
-      }`}
+      className={`${event.color} text-white p-2 rounded cursor-move transition-all ${isDragging ? 'opacity-50 scale-95' : 'hover:scale-105'
+        }`}
     >
       <Icon className="w-4 h-4 mx-auto" />
       <p className="text-xs text-center font-medium mt-1">{event.name}</p>
@@ -104,7 +102,7 @@ const CalendarDay = ({ day, events, onDropEvent, onRemoveEvent }) => {
   const handleDrop = (e) => {
     e.preventDefault();
     setIsOver(false);
-    
+
     const eventId = e.dataTransfer.getData('eventId');
     if (eventId) {
       onDropEvent(day, eventId);
@@ -116,9 +114,8 @@ const CalendarDay = ({ day, events, onDropEvent, onRemoveEvent }) => {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`border rounded p-1 min-h-[60px] md:min-h-[80px] transition-all ${
-        isOver ? 'bg-blue-50 border-blue-400' : 'border-gray-200'
-      } ${isToday ? 'bg-yellow-50' : 'bg-white'}`}
+      className={`border rounded p-1 min-h-[60px] md:min-h-[80px] transition-all ${isOver ? 'bg-blue-50 border-blue-400' : 'border-gray-200'
+        } ${isToday ? 'bg-yellow-50' : 'bg-white'}`}
     >
       <div className="flex justify-between items-center mb-1">
         <span className={`text-xs font-semibold ${isToday ? 'text-yellow-700' : 'text-gray-700'}`}>
@@ -130,7 +127,7 @@ const CalendarDay = ({ day, events, onDropEvent, onRemoveEvent }) => {
         {events.map((eventId, index) => {
           const event = getEventType(eventId);
           if (!event) return null;
-          
+
           const Icon = event.icon;
           return (
             <div
@@ -155,11 +152,11 @@ const MonthlyCalendar = () => {
   const currentDate = new Date();
   const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
   const currentYear = currentDate.getFullYear();
-  
+
   // Get days in current month
   const daysInMonth = new Date(currentYear, currentDate.getMonth() + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentDate.getMonth(), 1).getDay();
-  
+
   const handleDropEvent = (day, eventId) => {
     setCalendarEvents(prev => ({
       ...prev,
@@ -177,7 +174,7 @@ const MonthlyCalendar = () => {
   // Create calendar grid
   const calendarDays = [];
   const totalCells = Math.ceil((daysInMonth + firstDayOfMonth) / 7) * 7;
-  
+
   for (let i = 0; i < totalCells; i++) {
     const dayNumber = i - firstDayOfMonth + 1;
     if (dayNumber > 0 && dayNumber <= daysInMonth) {
@@ -192,7 +189,7 @@ const MonthlyCalendar = () => {
       <h1 className="text-xl md:text-2xl font-bold text-center mb-4 text-gray-800">
         {currentMonth} {currentYear}
       </h1>
-      
+
       {/* Mobile Activity Toggle */}
       <div className="md:hidden mb-4">
         <button
@@ -231,7 +228,7 @@ const MonthlyCalendar = () => {
             Drag to days
           </p>
         </div>
-        
+
         {/* Calendar Grid */}
         <div className="flex-1 bg-white rounded-lg shadow p-3">
           {/* Day headers */}
@@ -243,7 +240,7 @@ const MonthlyCalendar = () => {
               </div>
             ))}
           </div>
-          
+
           {/* Calendar days */}
           <div className="grid grid-cols-7 gap-1">
             {calendarDays.map((day, index) => (
@@ -261,7 +258,7 @@ const MonthlyCalendar = () => {
               </div>
             ))}
           </div>
-          
+
           <p className="text-xs text-gray-500 mt-3 text-center">
             Tap events to remove
           </p>

@@ -8,6 +8,7 @@ COPY index-modern.html /usr/share/nginx/html/
 COPY monthly-calendar.html /usr/share/nginx/html/
 COPY penny_app_content.json /usr/share/nginx/html/
 COPY test-navigation.html /usr/share/nginx/html/
+COPY *.png /usr/share/nginx/html/
 COPY games/ /usr/share/nginx/html/games/
 
 # Copy nginx configuration for better caching and security
