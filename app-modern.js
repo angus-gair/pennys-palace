@@ -731,8 +731,25 @@ function startMemoryGame() {
   const gameArea = document.getElementById('memory-game-area');
   const grid = document.getElementById('memory-grid');
 
-  gameArea.style.display = 'block';
-  appState.gameStates.memory = { score: 0, flipped: [], matched: [], attempts: 0 };
+  // Check if grid exists
+  if (!grid) {
+    console.error('Memory grid not found!');
+    return;
+  }
+
+  // If gameArea exists (in main app), show it; otherwise just work with grid (standalone)
+  if (gameArea) {
+    gameArea.style.display = 'block';
+  }
+  
+  // Reset or initialize app state
+  if (!window.appState) {
+    window.appState = { gameStates: {} };
+  }
+  if (!window.appState.gameStates) {
+    window.appState.gameStates = {};
+  }
+  window.appState.gameStates.memory = { score: 0, flipped: [], matched: [], attempts: 0 };
 
   // Shuffle cards
   const shuffled = [...gameData.memoryCards].sort(() => Math.random() - 0.5);
@@ -750,6 +767,11 @@ function startMemoryGame() {
     cardElement.dataset.value = card;
     cardElement.dataset.index = index;
     cardElement.textContent = '?';
+    
+    // Initial styling to ensure visibility
+    cardElement.style.opacity = '0';
+    cardElement.style.transform = 'scale(0.8)';
+    cardElement.style.transition = 'all 0.3s ease';
 
     cardElement.addEventListener('click', flipCard);
     cardElement.addEventListener('keydown', (e) => {
@@ -763,53 +785,68 @@ function startMemoryGame() {
 
     // Stagger card animations
     setTimeout(() => {
-      AnimationUtils.fadeIn(cardElement);
+      cardElement.style.opacity = '1';
+      cardElement.style.transform = 'scale(1)';
     }, index * 50);
   });
 
-  AccessibilityUtils.announce('Memory game started! Find matching pairs.');
+  // Update score display if it exists
+  const scoreEl = document.getElementById('memory-score');
+  if (scoreEl) {
+    scoreEl.textContent = '0';
+  }
+  
+  console.log(`Memory game started with ${shuffled.length} cards`);
 }
 
 function flipCard(event) {
   const card = event.target;
   const index = parseInt(card.dataset.index);
 
-  if (appState.gameStates.memory.flipped.length < 2 &&
-    !appState.gameStates.memory.flipped.includes(index) &&
-    !appState.gameStates.memory.matched.includes(index)) {
+  if (window.appState.gameStates.memory.flipped.length < 2 &&
+    !window.appState.gameStates.memory.flipped.includes(index) &&
+    !window.appState.gameStates.memory.matched.includes(index)) {
 
     card.textContent = card.dataset.value;
     card.classList.add('flipped');
     card.setAttribute('aria-label', `Card ${index + 1}, showing ${card.dataset.value}`);
 
-    AnimationUtils.bounce(card, 1.05);
-    appState.gameStates.memory.flipped.push(index);
+    // Simple bounce effect
+    card.style.transform = 'scale(1.05)';
+    setTimeout(() => card.style.transform = 'scale(1)', 150);
+    window.appState.gameStates.memory.flipped.push(index);
 
-    if (appState.gameStates.memory.flipped.length === 2) {
-      appState.gameStates.memory.attempts++;
+    if (window.appState.gameStates.memory.flipped.length === 2) {
+      window.appState.gameStates.memory.attempts++;
       setTimeout(checkMatch, 1000);
     }
   }
 }
 
 function checkMatch() {
-  const [first, second] = appState.gameStates.memory.flipped;
+  const [first, second] = window.appState.gameStates.memory.flipped;
   const cards = document.querySelectorAll('.memory-card');
 
   if (cards[first].dataset.value === cards[second].dataset.value) {
     cards[first].classList.add('matched');
     cards[second].classList.add('matched');
-    appState.gameStates.memory.matched.push(first, second);
-    appState.gameStates.memory.score += 10;
+    window.appState.gameStates.memory.matched.push(first, second);
+    window.appState.gameStates.memory.score += 10;
 
-    AnimationUtils.sparkle(cards[first]);
-    AnimationUtils.sparkle(cards[second]);
+    // Simple sparkle effect
+    cards[first].style.animation = 'match-celebration 0.6s ease';
+    cards[second].style.animation = 'match-celebration 0.6s ease';
 
-    ToastManager.show('Perfect match! 🎯', 'success', 2000);
+    // Update score display
+    const scoreEl = document.getElementById('memory-score');
+    if (scoreEl) {
+      scoreEl.textContent = window.appState.gameStates.memory.score;
+    }
 
-    if (appState.gameStates.memory.matched.length === gameData.memoryCards.length) {
-      const efficiency = Math.round((gameData.memoryCards.length / 2) / appState.gameStates.memory.attempts * 100);
-      showCelebration("🏆 Amazing!", `You matched all cards with ${efficiency}% efficiency! 🎉`, 'achievement');
+    if (window.appState.gameStates.memory.matched.length === gameData.memoryCards.length) {
+      const efficiency = Math.round((gameData.memoryCards.length / 2) / window.appState.gameStates.memory.attempts * 100);
+      // Simple celebration message
+      alert(`🏆 Amazing! You matched all cards with ${efficiency}% efficiency! 🎉`);
     }
   } else {
     cards[first].textContent = '?';
@@ -819,12 +856,17 @@ function checkMatch() {
     cards[first].setAttribute('aria-label', `Card ${first + 1}, hidden`);
     cards[second].setAttribute('aria-label', `Card ${second + 1}, hidden`);
 
-    AnimationUtils.shake(cards[first]);
-    AnimationUtils.shake(cards[second]);
+    // Simple shake effect
+    cards[first].style.animation = 'shake 0.5s ease';
+    cards[second].style.animation = 'shake 0.5s ease';
   }
 
-  appState.gameStates.memory.flipped = [];
-  document.getElementById('memory-score').textContent = appState.gameStates.memory.score;
+  window.appState.gameStates.memory.flipped = [];
+  // Update score display if it exists
+  const scoreEl = document.getElementById('memory-score');
+  if (scoreEl) {
+    scoreEl.textContent = window.appState.gameStates.memory.score;
+  }
 }
 
 // Enhanced word scramble game

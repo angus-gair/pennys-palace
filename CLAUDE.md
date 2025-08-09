@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Deployment Guidelines
+
+- When I say "deploy", I mean deploy via Docker to Localhost & sometimes production
+- NEVER use GitHub Actions for deployment
+
 ## Recent Design Updates (2025)
 
 **Penny's Personal Place** has been completely redesigned with a modern, elegant aesthetic while maintaining its playful character. The redesign features:

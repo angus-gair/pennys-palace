@@ -4,50 +4,284 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Match | Penny's Palace</title>
-    <link rel="stylesheet" href="../style-modern.css">
     <style>
+        /* Modern Design System */
+        :root {
+            --color-primary: #E91E63;
+            --color-secondary: #673AB7;
+            --color-accent: #00BCD4;
+            --color-success: #4CAF50;
+            --color-white: #FFFFFF;
+            --color-light-gray: #F5F5F5;
+            --color-dark-gray: #616161;
+            --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --font-primary: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+            --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            --radius-lg: 1.5rem;
+            --radius-md: 1rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background: var(--gradient-hero);
+            min-height: 100vh;
+            color: var(--color-dark-gray);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
         .game-container {
-            max-width: 800px;
+            max-width: 600px;
             margin: 2rem auto;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: var(--space-xl);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
             backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
         }
         
         .game-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: var(--space-xl);
+        }
+
+        .game-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .game-header p {
+            font-size: 1.1rem;
+            color: var(--color-dark-gray);
+            margin-bottom: var(--space-lg);
+        }
+
+        .game-score {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: var(--space-lg);
         }
         
         .back-btn {
             position: fixed;
             top: 20px;
             left: 20px;
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(102, 126, 234, 0.3);
-            padding: 10px 20px;
+            padding: 12px 20px;
             border-radius: 10px;
             text-decoration: none;
             color: #667eea;
             font-weight: 600;
+            font-family: var(--font-primary);
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 10;
         }
         
         .back-btn:hover {
-            background: rgba(102, 126, 234, 0.2);
+            background: rgba(255, 255, 255, 1);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Memory Game Grid */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+            max-width: 400px;
+            margin: 0 auto var(--space-xl) auto;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-white);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            border: none;
+            outline: none;
+            user-select: none;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-card:focus {
+            box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.3);
+        }
+
+        .memory-card.flipped {
+            background: var(--color-white);
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            font-size: 0.9rem;
+        }
+
+        .memory-card.matched {
+            background: var(--color-success);
+            animation: match-celebration 0.6s ease;
+        }
+
+        .start-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 15px 30px;
+            background: var(--gradient-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: var(--font-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3);
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--space-lg);
+            padding: var(--space-md);
+            background: var(--color-light-gray);
+            border-radius: var(--radius-md);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-dark-gray);
+        }
+
+        /* Animations */
+        @keyframes match-celebration {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(5deg); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .game-container {
+                margin: 1rem;
+                padding: var(--space-lg);
+            }
+
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.75rem;
+                max-width: 300px;
+            }
+
+            .memory-card {
+                font-size: 1rem;
+            }
+
+            .game-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .memory-grid {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 200px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="particles" id="particles"></div>
+    
     <a href="../index-modern.html" class="back-btn">← Back to Games</a>
     
     <div class="game-container">
         <div class="game-header">
             <h1>🧠 Memory Match</h1>
-            <p>Match Sydney Swans players and facts!</p>
+            <p>Match Sydney Swans players and symbols!</p>
             <div class="game-score">Score: <span id="memory-score">0</span></div>
         </div>
         
@@ -55,11 +289,227 @@
             <!-- Memory cards will be populated by JavaScript -->
         </div>
         
-        <button class="btn btn--primary" onclick="startMemoryGame()" style="margin: 2rem auto; display: block;">
+        <button class="start-btn" onclick="startMemoryGame()">
             Start New Game
         </button>
+
+        <div class="game-stats">
+            <div class="stat">
+                <div class="stat-value" id="attempts">0</div>
+                <div class="stat-label">Attempts</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="matches">0</div>
+                <div class="stat-label">Matches</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="efficiency">0%</div>
+                <div class="stat-label">Efficiency</div>
+            </div>
+        </div>
     </div>
     
-    <script src="../app-modern.js"></script>
+    <script>
+        // Game data
+        const memoryCards = [
+            "Isaac Heeney", "Errol Gulden", "Chad Warner", "Callum Mills",
+            "🦢", "🏈", "❤️", "⭐", "🏆", "🎯", "💪", "🔥",
+            "Isaac Heeney", "Errol Gulden", "Chad Warner", "Callum Mills",
+            "🦢", "🏈", "❤️", "⭐", "🏆", "🎯", "💪", "🔥"
+        ];
+
+        // Game state
+        let gameState = {
+            score: 0,
+            flipped: [],
+            matched: [],
+            attempts: 0,
+            isPlaying: false
+        };
+
+        // Create animated particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Start memory game
+        function startMemoryGame() {
+            const grid = document.getElementById('memory-grid');
+            
+            if (!grid) {
+                console.error('Memory grid not found!');
+                return;
+            }
+
+            // Reset game state
+            gameState = {
+                score: 0,
+                flipped: [],
+                matched: [],
+                attempts: 0,
+                isPlaying: true
+            };
+
+            // Shuffle cards
+            const shuffled = [...memoryCards].sort(() => Math.random() - 0.5);
+
+            // Clear grid
+            grid.innerHTML = '';
+
+            // Create cards
+            shuffled.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'memory-card';
+                cardElement.setAttribute('tabindex', '0');
+                cardElement.setAttribute('aria-label', `Card ${index + 1}, hidden`);
+                cardElement.dataset.value = card;
+                cardElement.dataset.index = index;
+                cardElement.textContent = '?';
+                
+                // Initial styling
+                cardElement.style.opacity = '0';
+                cardElement.style.transform = 'scale(0.8)';
+                cardElement.style.transition = 'all 0.3s ease';
+
+                // Event listeners
+                cardElement.addEventListener('click', flipCard);
+                cardElement.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        flipCard(e);
+                    }
+                });
+
+                grid.appendChild(cardElement);
+
+                // Stagger card animations
+                setTimeout(() => {
+                    cardElement.style.opacity = '1';
+                    cardElement.style.transform = 'scale(1)';
+                }, index * 50);
+            });
+
+            // Update displays
+            updateScore();
+            updateStats();
+            
+            console.log(`Memory game started with ${shuffled.length} cards`);
+        }
+
+        // Flip card
+        function flipCard(event) {
+            if (!gameState.isPlaying) return;
+            
+            const card = event.target;
+            const index = parseInt(card.dataset.index);
+
+            // Check if card can be flipped
+            if (gameState.flipped.length < 2 &&
+                !gameState.flipped.includes(index) &&
+                !gameState.matched.includes(index)) {
+
+                // Flip card
+                card.textContent = card.dataset.value;
+                card.classList.add('flipped');
+                card.setAttribute('aria-label', `Card ${index + 1}, showing ${card.dataset.value}`);
+
+                // Bounce effect
+                card.style.transform = 'scale(1.05)';
+                setTimeout(() => card.style.transform = 'scale(1)', 150);
+
+                gameState.flipped.push(index);
+
+                // Check for match if two cards are flipped
+                if (gameState.flipped.length === 2) {
+                    gameState.attempts++;
+                    setTimeout(checkMatch, 1000);
+                    updateStats();
+                }
+            }
+        }
+
+        // Check for match
+        function checkMatch() {
+            const [first, second] = gameState.flipped;
+            const cards = document.querySelectorAll('.memory-card');
+
+            if (cards[first].dataset.value === cards[second].dataset.value) {
+                // Match found
+                cards[first].classList.add('matched');
+                cards[second].classList.add('matched');
+                gameState.matched.push(first, second);
+                gameState.score += 10;
+
+                // Celebration animation
+                cards[first].style.animation = 'match-celebration 0.6s ease';
+                cards[second].style.animation = 'match-celebration 0.6s ease';
+
+                updateScore();
+                updateStats();
+
+                // Check for game completion
+                if (gameState.matched.length === memoryCards.length) {
+                    gameState.isPlaying = false;
+                    const efficiency = Math.round((memoryCards.length / 2) / gameState.attempts * 100);
+                    setTimeout(() => {
+                        alert(`🏆 Congratulations! You completed the game with ${efficiency}% efficiency! 🎉`);
+                    }, 800);
+                }
+            } else {
+                // No match
+                cards[first].textContent = '?';
+                cards[second].textContent = '?';
+                cards[first].classList.remove('flipped');
+                cards[second].classList.remove('flipped');
+                cards[first].setAttribute('aria-label', `Card ${first + 1}, hidden`);
+                cards[second].setAttribute('aria-label', `Card ${second + 1}, hidden`);
+
+                // Shake animation
+                cards[first].style.animation = 'shake 0.5s ease';
+                cards[second].style.animation = 'shake 0.5s ease';
+            }
+
+            // Reset flipped cards
+            gameState.flipped = [];
+        }
+
+        // Update score display
+        function updateScore() {
+            const scoreEl = document.getElementById('memory-score');
+            if (scoreEl) {
+                scoreEl.textContent = gameState.score;
+            }
+        }
+
+        // Update game statistics
+        function updateStats() {
+            const attemptsEl = document.getElementById('attempts');
+            const matchesEl = document.getElementById('matches');
+            const efficiencyEl = document.getElementById('efficiency');
+
+            if (attemptsEl) attemptsEl.textContent = gameState.attempts;
+            if (matchesEl) matchesEl.textContent = gameState.matched.length / 2;
+            
+            if (efficiencyEl && gameState.attempts > 0) {
+                const perfectAttempts = memoryCards.length / 2;
+                const efficiency = Math.round((perfectAttempts / gameState.attempts) * 100);
+                efficiencyEl.textContent = efficiency + '%';
+            }
+        }
+
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            console.log('Memory Match game loaded');
+        });
+    </script>
 </body>
 </html>
